@@ -42,6 +42,8 @@ Changes in 0.3-x releases of scatterplot3d:
 	 Argument lty.hide introduced (for plotting of in-visible edges)
 	 plane3d() allows to plot the box-intersecting lines in a 
           different line style
+ 0.3-16: bug fix: non-finite or NA values of y did not work.
+
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

@@ -94,7 +94,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
 ### optim. axis scaling
     p.lab <- par("lab")
     ## Y
-    y.range <- range(dat$y, ylim)
+    y.range <- range(dat$y[is.finite(dat$y)], ylim)
     y.prty <- pretty(y.range, n = lab[2],
         min.n = max(1, min(.5 * lab[2], p.lab[2])))
     y.scal <- round(diff(y.prty[1:2]), digits = 12)

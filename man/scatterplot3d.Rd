@@ -2,7 +2,7 @@
 \alias{scatterplot3d}
 \title{3D Scatter Plot}
 \description{
-  Plots a three dimensional (3D) point cloud perspectively.
+  Plots a three dimensional (3D) point cloud.
 }
 \usage{
 scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
@@ -66,6 +66,7 @@ Usefull to plot objects into existing plot.}
   \item{plane3d}{function which draws a plane into the existing plot:
         \code{plane3d(Intercept, x.coef = NULL, y.coef = NULL, lty = "dashed", ...)}.
         Instead of \code{Intercept} a vector containing 3 elements or an (g)lm object can be specified.}
+  \item{box3d}{function which "refreshes" the box surrounding the plot.}
 }
 \note{
 Some graphical parameters can only be set as arguments in \code{scatterplot3d} but not in \code{par}, e.g. \code{mar}.

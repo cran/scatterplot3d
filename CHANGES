@@ -1,0 +1,24 @@
+Changes in 0.3-x releases of scatterpolot3d:
+=======
+ 0.3.0:  New design: box, pretty() for ticks, ...
+ 0.3.1:  par("las") bug patched, scale.y is changed (code and default)
+ 0.3.2:  all angles will work again (default: 40)
+         tick mark labeling changed (using mtext)
+         par("mar") is set in the first line, not very general!
+ 0.3.3:  new argument "mar", more details in the help files
+ 0.3.4:  new arguments x/y/z.ticklabs, thanks to Ben Bolker!
+         bug fix: adj for tick.mark.labels corrected
+ 0.3-5:  new argument y.margin.add for manual fixing scaling problems
+         (e.g. some y-tickmarks dissapear after rescaling the window)
+ 0.3-6:  cex.symbols introduced to solve magnification errors
+ 0.3-7:  added function plane3d, which will be returned,
+         (e.g. for overlaying a regression plane)
+ 0.3-8:  bugfix: some magnification errors for y.ticklabs
+ 0.3-9:  bugfix: pch works vectorized again (error with y-sorting)
+ 0.3-10: added function box3d(), which will be returned,
+         to draw the box surrounding the plot again after additions
+         * added a function s3d.persp() - somehow joining s3d and persp() *
+ 0.3-11: * s3d.persp() deleted again, because of various reasons *
+         Created this file to reduce the size of the R code.
+
+known UNfixed bug: xlim, ylim, zlim don't work *exactly* for enlarged areas 

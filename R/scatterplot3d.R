@@ -13,33 +13,13 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
      lty.axis = par("lty"), lty.grid = par("lty"), log = "", ...) 
      # log not yet implemented
 { 
-    ##  scatterplot3d, 0.3-9, 30.01.2002,
-    ##  Uwe Ligges <ligges@statistik.uni-dortmund.de>,
-    ##      http://www.statistik.uni-dortmund.de/leute/ligges.htm
+    ## scatterplot3d, 0.3-11, 24.05.2002,
+    ## Uwe Ligges <ligges@statistik.uni-dortmund.de>,
+    ## http://www.statistik.uni-dortmund.de/leute/ligges.htm
     ##
     ## For MANY ideas and improvements thanks to Martin Maechler!!!
-    ##
     ## Parts of the help files are stolen from the standard plotting functions in R.
-    ##
-    ## 0.3.0: New design: box, pretty() for ticks, ...
-    ## 0.3.1: par("las") bug patched, scale.y is changed (code and default)
-    ## 0.3.2: all angles will work again (default: 40)
-    ##        tick mark labeling changed (using mtext)
-    ##        par("mar") is set in the first line, not very general!
-    ## 0.3.3: new argument "mar", more details in the help files
-    ## 0.3.4: new arguments x/y/z.ticklabs, thanks to Ben Bolker!
-    ##        bug fix: adj for tick.mark.labels corrected
-    ## 0.3-5: new argument y.margin.add for manual fixing scaling problems
-    ##        (e.g. some y-tickmarks dissapear after rescaling the window)
-    ## 0.3-6: cex.symbols introduced to solve magnification errors
-    ## 0.3-7: added function plane3d, which will be returned,
-    ##        (e.g. for overlaying a regression plane)
-    ## 0.3-8: bugfix: some magnification errors for y.ticklabs
-    ## 0.3-9: bugfix: pch works vectorized again (error with y-sorting)
-    
-    ## known UNfixed bugs:
-    ##        - xlim, ylim, zlim don't work *exactly* for enlarged areas (difficult to fix)
-    
+
     mem.par <- par(mar = mar)
     x.scal <- y.scal <- z.scal <- 1
     xlabel <- if (!missing(x)) deparse(substitute(x))
@@ -294,7 +274,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
 ### Return Function Object
     ob <- ls() ## remove all unused objects from the result's enviroment:
     rm(list = ob[!ob %in% c("x.scal", "y.scal", "z.scal", "yx.f", 
-        "yz.f", "y.add", "z.min", "x.min", "x.max", "y.max")])
+        "yz.f", "y.add", "z.min", "z.max", "x.min", "x.max", "y.max")])
     rm(ob)
     invisible(list(
         xyz.convert = function(x, y=NULL, z=NULL) {
@@ -334,6 +314,12 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             z2 <- (Intercept + x.max * x.coef + y.coef) / z.scal
             segments(x.min + y * yx.f, z1 + y * yz.f, 
                 x.max + y * yx.f, z2 + y * yz.f, lty = lty, ...)
+        },
+        box3d = function(...){
+            lines(c(x.min, x.max), c(z.max, z.max), ...)  
+            lines(c(0, y.max * yx.f) + x.max, c(0, y.max * yz.f) + z.max, ...)
+            lines(c(x.max, x.max), c(z.min, z.max), ...) 
+            lines(c(x.min, x.max), c(z.min, z.min), ...)
         }
     ))
 }

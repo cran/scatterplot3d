@@ -1,4 +1,4 @@
-Changes in 0.3-x releases of scatterpolot3d:
+Changes in 0.3-x releases of scatterplot3d:
 =======
  0.3.0:  New design: box, pretty() for ticks, ...
  0.3.1:  par("las") bug patched, scale.y is changed (code and default)
@@ -20,5 +20,10 @@ Changes in 0.3-x releases of scatterpolot3d:
          * added a function s3d.persp() - somehow joining s3d and persp() *
  0.3-11: * s3d.persp() deleted again, because of various reasons *
          Created this file to reduce the size of the R code.
+ 0.3-12: bug fix: tick.mark.labels of y axis were sometimes raised
+         by a constant or vice versa
+         format() is used to print tick.mark.labels pretty, and smarter 
+         calculation of desired (for y axis tick.mark.labels) plot margins
+
 
 known UNfixed bug: xlim, ylim, zlim don't work *exactly* for enlarged areas 

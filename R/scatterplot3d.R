@@ -13,7 +13,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
      lty.axis = par("lty"), lty.grid = par("lty"), log = "", ...) 
      # log not yet implemented
 { 
-    ## scatterplot3d, 0.3-11, 24.05.2002,
+    ## scatterplot3d, 0.3-12, 15.09.2002,
     ## Uwe Ligges <ligges@statistik.uni-dortmund.de>,
     ## http://www.statistik.uni-dortmund.de/leute/ligges.htm
     ##
@@ -142,8 +142,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     if(angle.2) {x1 <- x.min + yx.f * y.max; x2 <- x.max}
     else        {x1 <- x.min; x2 <- x.max + yx.f * y.max}
     plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
-    temp <- strwidth(as.character(y.scal * y.max + round(y.add, 0)), 
-        cex = cex.lab/par("cex"))
+    temp <- strwidth(format(y.prty)[1], cex = cex.lab/par("cex"))
     if(angle.2) x1 <- x1 - temp - y.margin.add
     else x2 <- x2 + temp + y.margin.add
     plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
@@ -166,18 +165,18 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
         xtl <- (z.max - z.min) * (tcl <- -par("tcl")) / 50
         ztl <- (x.max - x.min) * tcl / 50
         ## Y
-        i <- 0:y.max
+        i.y <- 0:y.max
         temp <- ifelse(angle.2, x.min, x.max)
-        segments(yx.f * i - ztl + temp, yz.f * i + z.min,
-                 yx.f * i + ztl + temp, yz.f * i + z.min,
+        segments(yx.f * i.y - ztl + temp, yz.f * i.y + z.min,
+                 yx.f * i.y + ztl + temp, yz.f * i.y + z.min,
                  col=col.axis, lty=lty.axis)
         ## X
-        i <- x.min:x.max
-        segments(i, -xtl + z.min, i, xtl + z.min, col=col.axis, lty=lty.axis)
+        i.x <- x.min:x.max
+        segments(i.x, -xtl + z.min, i.x, xtl + z.min, col=col.axis, lty=lty.axis)
         ## Z
-        i <- z.min:z.max
+        i.z <- z.min:z.max
         temp <- ifelse(angle.2, x.max, x.min)
-        segments(-ztl + temp, i, ztl + temp, i, col=col.axis, lty=lty.axis)
+        segments(-ztl + temp, i.z, ztl + temp, i.z, col=col.axis, lty=lty.axis)
 
         if(label.tick.marks) { ## label tick marks
             las <- par("las")
@@ -185,30 +184,24 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
                 mtext(text = labels, side = side, at = at, line = -.5,
                     col=col.lab, cex=cex.lab, font=font.lab, ...)
             ## X
-            j <- subset(temp <- pretty(x.range, n = lab[1]), 
-                temp <= x.range[2] & temp >= x.range[1])
             if(is.null(x.ticklabs))
-                x.ticklabs <- j * x.scal
-            mytext(x.ticklabs, side = 1, at = j)
+                x.ticklabs <- format(i.x * x.scal)
+            mytext(x.ticklabs, side = 1, at = i.x)
             ## Z
-            j <- subset(temp <- pretty(z.range, n = lab.z), 
-                temp <= z.range[2] & temp >= z.range[1])
             if(is.null(z.ticklabs))
-                z.ticklabs <- j * z.scal
-            mytext(z.ticklabs, side = ifelse(angle.1, 4, 2), at = j,
+                z.ticklabs <- format(i.z * z.scal)
+            mytext(z.ticklabs, side = ifelse(angle.1, 4, 2), at = i.z,
                 adj = ifelse((0 < las) && (las < 3), 1, NA))
             ## Y
-            j <- subset(temp <- pretty(c(0, y.max), n = lab[2]), 
-                temp <= y.max & temp >= 0)
-            temp <- if(angle > 2) rev(j) else j ## turn y-labels around
+            temp <- if(angle > 2) rev(i.y) else i.y ## turn y-labels around
             if(is.null(y.ticklabs))
-                y.ticklabs <- y.scal * temp + round(y.add, 0)
+                y.ticklabs <- format(y.prty)
             else if (angle > 2)
                 y.ticklabs <- rev(y.ticklabs)
-            text(j * yx.f + ifelse(angle.2, x.min, x.max), 
-                 j * yz.f + z.min, y.ticklabs,
-                pos = ifelse(angle.1, 2, 4), offset = 1, 
-                col=col.lab, cex = cex.lab/par("cex"), font=font.lab)
+            text(i.y * yx.f + ifelse(angle.2, x.min, x.max), 
+                 i.y * yz.f + z.min, y.ticklabs,
+                pos=ifelse(angle.1, 2, 4), offset=1, 
+                col=col.lab, cex=cex.lab/par("cex"), font=font.lab)
         }
     }
     if(axis) { ## axis and labels

@@ -96,18 +96,18 @@ and at last as arguments in \code{par}.
 
     ## example 2
     temp <- seq(-pi, 0, length = 50)
-    x <- as.vector(rep(1, 50) \%*\% t(cos(temp)))
-    y <- as.vector(cos(temp) \%*\% t(sin(temp)))
-    z <- as.vector(sin(temp) \%*\% t(sin(temp)))
+    x <- c(rep(1, 50) \%*\% t(cos(temp)))
+    y <- c(cos(temp) \%*\% t(sin(temp)))
+    z <- c(sin(temp) \%*\% t(sin(temp)))
     scatterplot3d(x, y, z, highlight.3d=TRUE, 
         col.axis="blue", col.grid="lightblue",
         main="scatterplot3d - 2", pch=20)
 
     ## example 3
     temp <- seq(-pi, 0, length = 50)
-    x <- as.vector(rep(1, 50) \%*\% t(cos(temp)))
-    y <- as.vector(cos(temp) \%*\% t(sin(temp)))
-    z <- 10 * as.vector(sin(temp) \%*\% t(sin(temp)))
+    x <- c(rep(1, 50) \%*\% t(cos(temp)))
+    y <- c(cos(temp) \%*\% t(sin(temp)))
+    z <- 10 * c(sin(temp) \%*\% t(sin(temp)))
     color <- rep("green", length(x))
     temp <- seq(-10, 10, 0.01)
     x <- c(x, cos(temp))

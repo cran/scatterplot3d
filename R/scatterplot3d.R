@@ -7,13 +7,13 @@ function(x, y = NULL, z = NULL, color = par("col"),
      y.margin.add = 0, grid = TRUE, box = TRUE, lab = par("lab"),
      lab.z = mean(lab[1:2]), type = par("type"), highlight.3d = FALSE,
      mar = c(5, 3, 4, 3) + 0.1, col.axis = par("col.axis"),
-     col.grid= "grey", col.lab= par("col.lab"),
+     col.grid= "grey", col.lab= par("col.lab"), cex.symbols = par("cex"),
      cex.axis = par("cex.axis"), cex.lab = 0.8 * par("cex.lab"),
      font.axis = par("font.axis"), font.lab = par("font.lab"),
      lty.axis = par("lty"), lty.grid = par("lty"), log = "", ...) 
      # log not yet implemented
 { 
-    ##  scatterplot3d, 0.3-5, 08.03.2001,
+    ##  scatterplot3d, 0.3-7, 27.07.2001,
     ##  Uwe Ligges <ligges@statistik.uni-dortmund.de>,
     ##      http://www.statistik.uni-dortmund.de/leute/ligges.htm
     ##
@@ -29,8 +29,11 @@ function(x, y = NULL, z = NULL, color = par("col"),
     ##        bug fix: adj for tick.mark.labels corrected
     ## 0.3-5: new argument y.margin.add for manual fixing scaling problems
     ##        (e.g. some y-tickmarks dissapear after rescaling the window)
+    ## 0.3-6: cex.symbols introduced to solve magnification errors
+    ## 0.3-7: added function plane3d, which will be returned,
+    ##        (e.g. for overlaying a regression plane)
     
-    ## UNfixed bugs:
+    ## known UNfixed bugs:
     ##        - pch doesn't work vectorized because of y-sorting 
     ##        - xlim, ylim, zlim don't work *exactly* for enlarged areas (difficult to fix)
     
@@ -263,10 +266,10 @@ function(x, y = NULL, z = NULL, color = par("col"),
     col <- as.character(dat$col)
     if(type == "h") {
         z2 <- dat$y * yz.f + z.min
-        segments(x, z, x, z2, col = col, ...)
-        points(x, z, type = "p", col = col, ...)
+        segments(x, z, x, z2, col = col, cex = cex.symbols, ...)
+        points(x, z, type = "p", col = col, cex = cex.symbols, ...)
     }
-    else points(x, z, type = type, col = col, ...)
+    else points(x, z, type = type, col = col, cex = cex.symbols, ...)
 
 ### box-lines in front of points (overlay)
     if(axis && box) {
@@ -281,7 +284,8 @@ function(x, y = NULL, z = NULL, color = par("col"),
     par(mem.par)
 ### Return Function Object
     ob <- ls() ## remove all unused objects from the result's enviroment:
-    rm(list= ob[!ob %in% c("x.scal", "y.scal", "z.scal", "yx.f", "yz.f", "y.add", "z.min")])
+    rm(list = ob[!ob %in% c("x.scal", "y.scal", "z.scal", "yx.f", 
+        "yz.f", "y.add", "z.min", "x.min", "x.max", "y.max")])
     rm(ob)
     invisible(list(
         xyz.convert = function(x, y=NULL, z=NULL) {
@@ -301,6 +305,26 @@ function(x, y = NULL, z = NULL, color = par("col"),
                 points(x, y, type = "p", ...)
             }
             else points(x, y, type = type, ...)
+        },
+        plane3d = function(Intercept, x.coef = NULL, y.coef = NULL, lty = "dashed", ...){
+            if(!is.null(coef(Intercept))) Intercept <- coef(Intercept)
+            if(is.null(x.coef) && length(Intercept) == 3){
+                x.coef <- Intercept[2]
+                y.coef <- Intercept[3]
+                Intercept <- Intercept[1]
+            }
+            x <- x.min:x.max
+            x.coef <- x.coef * x.scal
+            z1 <- (Intercept + x * x.coef + y.add * y.coef) / z.scal
+            z2 <- (Intercept + x * x.coef +  
+                (y.max * y.scal + y.add) * y.coef) / z.scal
+            segments(x, z1, x + y.max * yx.f, z2 + yz.f * y.max, lty = lty, ...)
+            y <- 0:y.max
+            y.coef <- (y * y.scal + y.add) * y.coef
+            z1 <- (Intercept + x.min * x.coef + y.coef) / z.scal
+            z2 <- (Intercept + x.max * x.coef + y.coef) / z.scal
+            segments(x.min + y * yx.f, z1 + y * yz.f, 
+                x.max + y * yx.f, z2 + y * yz.f, lty = lty, ...)
         }
     ))
 }

@@ -13,10 +13,11 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), main=NULL,
     y.margin.add=0, grid=TRUE, box=TRUE, lab=par("lab"),
     lab.z=mean(lab[1:2]), type=par("type"), highlight.3d=FALSE,
     mar=c(5,3,4,3)+0.1, col.axis=par("col.axis"),
-    col.grid="grey", col.lab=par("col.lab"),
-    cex.axis=par("cex.axis"), cex.lab=0.8 * par("cex.lab"),
-    font.axis=par("font.axis"), font.lab=par("font.lab"),
-    lty.axis=par("lty"), lty.grid=par("lty"), log="", ...)
+    col.grid="grey", col.lab=par("col.lab"), 
+    cex.symbols=par("cex"), cex.axis=par("cex.axis"), 
+    cex.lab=0.8 * par("cex.lab"), font.axis=par("font.axis"), 
+    font.lab=par("font.lab"), lty.axis=par("lty"), 
+    lty.grid=par("lty"), log="", ...)
 }
 \arguments{
  \item{x}{the coordinates of points in the plot.}
@@ -50,7 +51,7 @@ On some devices not all colors can be displayed. In this case try the postscript
  \item{mar}{A numerical vector of the form c(bottom, left, top, right) 
 which gives the lines of margin to be specified on the four sides of the plot.}
  \item{col.axis, col.grid, col.lab}{the color to be used for axis / grid / axis labels.}
- \item{cex.axis, cex.lab}{the magnification to be used for axis annotation / labels relative to the current.}
+ \item{cex.symbols, cex.axis, cex.lab}{the magnification to be used for point symbols, axis annotation, labels relative to the current.}
  \item{font.axis, font.lab}{the font to be used for axis annotation / labels.}
  \item{lty.axis, lty.grid}{the line type to be used for axis / grid.}
  \item{log}{Not yet implemented!  A character string which contains "x" (if the x axis is to be logarithmic), 
@@ -61,6 +62,9 @@ which gives the lines of margin to be specified on the four sides of the plot.}
   \item{xyz.convert}{function which converts coordinates from 3D (x, y, z) to 2D-projection (x, y) of \code{scatterplot3d}.  
 Usefull to plot objects into existing plot.}
   \item{points3d}{function which draws points or lines into the existing plot.}
+  \item{plane3d}{function which draws a plane into the existing plot:
+        \code{plane3d(Intercept, x.coef = NULL, y.coef = NULL, lty = "dashed", ...)}.
+        Instead of \code{Intercept} a vector containing 3 elements or an (g)lm object can be specified.}
 }
 \note{
 Some graphical parameters can only be set as arguments in \code{scatterplot3d} but not in \code{par}, e.g. \code{mar}.
@@ -86,7 +90,7 @@ and at last as arguments in \code{par}.
     x <- cos(z)
     y <- sin(z)
     scatterplot3d(x, y, z, highlight.3d=TRUE, col.axis="blue",
-        col.grid="lightblue", main="scatterplot3d -- example 1", pch=20)
+        col.grid="lightblue", main="scatterplot3d - 1", pch=20)
 
     ## example 2
     temp <- seq(-pi, 0, length = 50)
@@ -95,7 +99,7 @@ and at last as arguments in \code{par}.
     z <- as.vector(sin(temp) \%*\% t(sin(temp)))
     scatterplot3d(x, y, z, highlight.3d=TRUE, 
         col.axis="blue", col.grid="lightblue",
-        main="scatterplot3d -- example 2", pch=20)
+        main="scatterplot3d - 2", pch=20)
 
     ## example 3
     temp <- seq(-pi, 0, length = 50)
@@ -109,7 +113,7 @@ and at last as arguments in \code{par}.
     z <- c(z, temp)
     color <- c(color, rep("red", length(temp)))
     scatterplot3d(x, y, z, color, pch=20, zlim=c(-2, 10),
-        main="scatterplot3d -- example 3")
+        main="scatterplot3d - 3")
 
     ## example 4
     my.mat <- matrix(runif(25), nrow=5)
@@ -121,14 +125,18 @@ and at last as arguments in \code{par}.
         value=as.vector(my.mat))
     scatterplot3d(s3d.dat, type="h", lwd=5, pch=" ", 
         x.ticklabs=colnames(my.mat), y.ticklabs=rownames(my.mat), 
-        color=grey(25:1/40), main="scatterplot3d -- example 4")
+        color=grey(25:1/40), main="scatterplot3d - 4")
 
     ## example 5
     data(trees)
     s3d <- scatterplot3d(trees, type="h", highlight.3d=TRUE, 
-        pch=16, main="scatterplot3d -- example 5")
+        angle=55, scale.y=0.7, pch=16, main="scatterplot3d - 5")
     # Now adding some points to the "scatterplot3d"
     s3d$points3d(seq(10,20,2), seq(85,60,-5), seq(60,10,-10), 
         col="blue", type="h", pch=16)        
+    # Now adding a regression plane to the "scatterplot3d"
+    attach(trees)
+    my.lm <- lm(Volume ~ Girth + Height)
+    s3d$plane3d(my.lm)
 }
 \keyword{hplot}

@@ -9,14 +9,14 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), main=NULL,
     sub=NULL, xlim=NULL, ylim=NULL, zlim=NULL, xlab=NULL,
     ylab=NULL, zlab=NULL, scale.y=1, angle=40, axis=TRUE,
     tick.marks=TRUE, label.tick.marks=TRUE, 
-    x.ticklabs=NULL, y.ticklabs=NULL, z.ticklabs=NULL, 
-    grid=TRUE, box=TRUE, lab=par("lab"), lab.z=mean(lab[1:2]),
-    type=par("type"), highlight.3d=FALSE, mar=c(5,3,4,3)+0.1,
-    col.axis=par("col.axis"), col.grid="grey",
-    col.lab=par("col.lab"), cex.axis=par("cex.axis"),
-    cex.lab=0.8 * par("cex.lab"), font.axis=par("font.axis"),
-    font.lab=par("font.lab"), lty.axis=par("lty"),
-    lty.grid=par("lty"), log="", ...)
+    x.ticklabs=NULL, y.ticklabs=NULL, z.ticklabs=NULL,
+    y.margin.add=0, grid=TRUE, box=TRUE, lab=par("lab"),
+    lab.z=mean(lab[1:2]), type=par("type"), highlight.3d=FALSE,
+    mar=c(5,3,4,3)+0.1, col.axis=par("col.axis"),
+    col.grid="grey", col.lab=par("col.lab"),
+    cex.axis=par("cex.axis"), cex.lab=0.8 * par("cex.lab"),
+    font.axis=par("font.axis"), font.lab=par("font.lab"),
+    lty.axis=par("lty"), lty.grid=par("lty"), log="", ...)
 }
 \arguments{
  \item{x}{the coordinates of points in the plot.}
@@ -36,6 +36,8 @@ For 180 < angle < 360  the returned functions \code{xyz.convert} and \code{point
  \item{label.tick.marks}{a logical value indicating whether tick marks should be labeled on the plot 
 (only if \code{axis = TRUE} and \code{tick.marks = TRUE}).}
  \item{x.ticklabs, y.ticklabs, z.ticklabs}{vector of tick mark labels.}
+ \item{y.margin.add}{add additional space between tickmark labels and
+   axis label of the y axis}
  \item{grid}{a logical value indicating whether a grid should be drawn on the plot.}
  \item{box}{a logical value indicating whether a box should be drawn around the plot.}
  \item{lab}{a numerical vector of the form c(x, y, len).  

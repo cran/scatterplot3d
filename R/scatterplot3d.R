@@ -10,10 +10,11 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
      col.grid = "grey", col.lab = par("col.lab"), cex.symbols = par("cex"),
      cex.axis = par("cex.axis"), cex.lab = 0.8 * par("cex.lab"),
      font.axis = par("font.axis"), font.lab = par("font.lab"),
-     lty.axis = par("lty"), lty.grid = par("lty"), log = "", ...)
+     lty.axis = par("lty"), lty.grid = par("lty"), lty.hide=NULL, 
+     log = "", ...)
      # log not yet implemented
 {
-    ## scatterplot3d, 0.3-14, 09.11.2003,
+    ## scatterplot3d, 0.3-15, 21.02.2004,
     ## Uwe Ligges <ligges@statistik.uni-dortmund.de>,
     ## http://www.statistik.uni-dortmund.de/~ligges
     ##
@@ -28,7 +29,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     ## verification, init, ...
     if(highlight.3d && !missing(color))
         warning(message = "color is ignored when  highlight.3d = TRUE")
-    if(length(x) < 2) stop("Minimal required length of x is 2 !")
+
 
     ## color as part of `x' (data.frame or list):
     if(!is.null(d <- dim(x)) && (length(d) == 2) && (d[2] >= 4))
@@ -77,8 +78,6 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     if(n < 1) stop("No data left within (x|y|z)lim")
 
     y.range <- range(dat$y[is.finite(dat$y)])
-    if(all(diff(y.range) == 0))
-        stop("All points have the same Y-value! Use 2D-plot!")
 
 ### 3D-highlighting / colors / sort by y
     if(type == "p" || type == "h") {
@@ -88,7 +87,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             if(length(pch) != length(y.ord))
                 stop("length(pch) must be equal length(x) or 1 !")
             else pch <- pch[y.ord]
-        if(highlight.3d)
+        if(highlight.3d && !(all(diff(dat$y) == 0)))
             dat$col <- rgb((1:n / n) * (y.range[2] - dat$y) / diff(y.range), g=0, b=0)
     }
 
@@ -106,8 +105,6 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     if(angle > 2) dat$y <- y.max - dat$y  ## turn y-values around
     ## X
     x.range <- range(dat$x[is.finite(dat$x)], xlim)
-    if(all(diff(x.range) == 0))
-        stop("All points have the same X-value! Use 2D-plot!")
     x.prty <- pretty(x.range, n = lab[1],
         min.n = max(1, min(.5 * lab[1], p.lab[1])))
     x.scal <- round(diff(x.prty[1:2]), digits = 12)
@@ -122,8 +119,6 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     x.range <- range(x.min, x.max)
     ## Z
     z.range <- range(dat$z[is.finite(dat$z)], zlim)
-    if(all(diff(z.range) == 0))
-        stop("All points have the same Z-value! Use 2D-plot!")
     z.prty <- pretty(z.range, n = lab.z,
         min.n = max(1, min(.5 * lab.z, p.lab[2])))
     z.scal <- round(diff(z.prty[1:2]), digits = 12)
@@ -222,25 +217,26 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
         lines(xx[c(2,2)], c(z.min, z.max), col = col.axis, lty = lty.axis)
         mytext(zlab, if(angle.1) 4 else 2, line= 1.5, at = mean(z.range))
         if(box) {
+            if(is.null(lty.hide)) lty.hide <- lty.axis
             ## X
             temp <- yx.f * y.max
             temp1 <- yz.f * y.max
             lines(c(x.min + temp, x.max + temp),
-                  c(z.min + temp1, z.min + temp1), col = col.axis, lty = lty.axis)
+                  c(z.min + temp1, z.min + temp1), col = col.axis, lty = lty.hide)
             lines(c(x.min + temp, x.max + temp), c(temp1 + z.max, temp1 + z.max),
                   col = col.axis, lty = lty.axis)
             ## Y
             temp <- c(0, y.max * yx.f)
             temp1 <- c(0, y.max * yz.f)
-            lines(temp + xx[2], temp1 + z.min, col = col.axis, lty = lty.axis)
+            lines(temp + xx[2], temp1 + z.min, col = col.axis, lty = lty.hide)
             lines(temp + x.min, temp1 + z.max, col = col.axis, lty = lty.axis)
             ## Z
             temp <- yx.f * y.max
             temp1 <- yz.f * y.max
             lines(c(temp + x.min, temp + x.min), c(z.min + temp1, z.max + temp1),
-                  col = col.axis, lty = lty.axis)
+                  col = col.axis, lty = if(!angle.2) lty.hide else lty.axis)
             lines(c(x.max + temp, x.max + temp), c(z.min + temp1, z.max + temp1),
-                  col = col.axis, lty = lty.axis)
+                  col = col.axis, lty = if(angle.2) lty.hide else lty.axis)
         }
     }
 
@@ -291,8 +287,10 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             else points(x, y, type = type, ...)
             par(mem.par)
         },
-        plane3d = function(Intercept, x.coef = NULL, y.coef = NULL, lty = "dashed", ...){
+        plane3d = function(Intercept, x.coef = NULL, y.coef = NULL, 
+            lty = "dashed", lty.box = NULL, ...){
             if(!is.null(coef(Intercept))) Intercept <- coef(Intercept)
+            if(is.null(lty.box)) lty.box <- lty
             if(is.null(x.coef) && length(Intercept) == 3){
                 x.coef <- Intercept[2]
                 y.coef <- Intercept[3]
@@ -300,17 +298,19 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             }
             mem.par <- par(mar = mar)
             x <- x.min:x.max
+            ltya <- c(lty.box, rep(lty, length(x)-2), lty.box)
             x.coef <- x.coef * x.scal
             z1 <- (Intercept + x * x.coef + y.add * y.coef) / z.scal
             z2 <- (Intercept + x * x.coef +
                 (y.max * y.scal + y.add) * y.coef) / z.scal
-            segments(x, z1, x + y.max * yx.f, z2 + yz.f * y.max, lty = lty, ...)
+            segments(x, z1, x + y.max * yx.f, z2 + yz.f * y.max, lty = ltya, ...)
             y <- 0:y.max
+            ltya <- c(lty.box, rep(lty, length(y)-2), lty.box)
             y.coef <- (y * y.scal + y.add) * y.coef
             z1 <- (Intercept + x.min * x.coef + y.coef) / z.scal
             z2 <- (Intercept + x.max * x.coef + y.coef) / z.scal
             segments(x.min + y * yx.f, z1 + y * yz.f,
-                x.max + y * yx.f, z2 + y * yz.f, lty = lty, ...)
+                x.max + y * yx.f, z2 + y * yz.f, lty = ltya, ...)
             par(mem.par)
         },
         box3d = function(...){

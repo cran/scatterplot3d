@@ -17,7 +17,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
     cex.symbols=par("cex"), cex.axis=par("cex.axis"),
     cex.lab=0.8 * par("cex.lab"), font.axis=par("font.axis"),
     font.lab=par("font.lab"), lty.axis=par("lty"),
-    lty.grid=par("lty"), log="", ...)
+    lty.grid=par("lty"), lty.hide=NULL, log="", ...)
 }
 \arguments{
  \item{x}{the coordinates of points in the plot.}
@@ -61,6 +61,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
    point symbols, axis annotation, labels relative to the current.}
  \item{font.axis, font.lab}{the font to be used for axis annotation / labels.}
  \item{lty.axis, lty.grid}{the line type to be used for axis / grid.}
+ \item{lty.hide}{line style used to plot \sQuote{non-visible} edges (defaults of the \code{lty.axis} style)}
  \item{log}{Not yet implemented!  A character string which contains "x"
    (if the x axis is to be logarithmic), "y", "z", "xy", "xz", "yz", "xyz".}
  \item{\dots}{more graphical parameters can be given as arguments,
@@ -73,8 +74,11 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
   \item{points3d}{function which draws points or lines into the existing plot.}
   \item{plane3d}{function which draws a plane into the existing plot:
     \code{plane3d(Intercept, x.coef = NULL, y.coef = NULL, lty =
-      "dashed", ...)}.  Instead of \code{Intercept} a vector containing 3
-    elements or an (g)lm object can be specified.}
+      "dashed", lty.box = NULL, ...)}. 
+    Instead of \code{Intercept} a vector containing 3
+    elements or an (g)lm object can be specified.
+    The argument \code{lty.box} allows to set a different line style for the 
+    intersecting lines in the box's walls.}
   \item{box3d}{function which "refreshes" the box surrounding the plot.}
 }
 \references{
@@ -162,7 +166,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
   # Now adding a regression plane to the "scatterplot3d"
   attach(trees)
   my.lm <- lm(Volume ~ Girth + Height)
-  s3d$plane3d(my.lm)
+  s3d$plane3d(my.lm, lty.box = "solid")
   
   ## example 6; by Martin Maechler
   cubedraw <- function(res3d, min = 0, max = 255, cex = 2)

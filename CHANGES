@@ -33,10 +33,15 @@ Changes in 0.3-x releases of scatterplot3d:
           plane3d(), and box3d() automatically.
           A "Note" has been added to the help file.
  0.3-14: Reference changed in help file.
-         Suggestions by Martin Maechler:
+         Suggestions by Martin Maechler (thank you!):
          - clean up a lot of code
          - Added note on unfixed bug to help file.
 	 - Added Martin's great examples 6 a/b: "color cube"
+ 0.3-15: Allow for just 1 point (was 2 before) to be plotted
+         Allow all points to be within a major plane
+	 Argument lty.hide introduced (for plotting of in-visible edges)
+	 plane3d() allows to plot the box-intersecting lines in a 
+          different line style
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

@@ -1,5 +1,5 @@
 scatterplot3d <- 
-function(x, y = NULL, z = NULL, color = par("col"),
+function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
      main = NULL, sub = NULL, xlim = NULL, ylim = NULL, zlim = NULL,
      xlab = NULL, ylab = NULL, zlab = NULL, scale.y = 1, angle = 40,
      axis = TRUE, tick.marks = TRUE, label.tick.marks = TRUE, 
@@ -13,11 +13,13 @@ function(x, y = NULL, z = NULL, color = par("col"),
      lty.axis = par("lty"), lty.grid = par("lty"), log = "", ...) 
      # log not yet implemented
 { 
-    ##  scatterplot3d, 0.3-7, 27.07.2001,
+    ##  scatterplot3d, 0.3-9, 30.01.2002,
     ##  Uwe Ligges <ligges@statistik.uni-dortmund.de>,
     ##      http://www.statistik.uni-dortmund.de/leute/ligges.htm
     ##
     ## For MANY ideas and improvements thanks to Martin Maechler!!!
+    ##
+    ## Parts of the help files are stolen from the standard plotting functions in R.
     ##
     ## 0.3.0: New design: box, pretty() for ticks, ...
     ## 0.3.1: par("las") bug patched, scale.y is changed (code and default)
@@ -32,9 +34,10 @@ function(x, y = NULL, z = NULL, color = par("col"),
     ## 0.3-6: cex.symbols introduced to solve magnification errors
     ## 0.3-7: added function plane3d, which will be returned,
     ##        (e.g. for overlaying a regression plane)
+    ## 0.3-8: bugfix: some magnification errors for y.ticklabs
+    ## 0.3-9: bugfix: pch works vectorized again (error with y-sorting)
     
     ## known UNfixed bugs:
-    ##        - pch doesn't work vectorized because of y-sorting 
     ##        - xlim, ylim, zlim don't work *exactly* for enlarged areas (difficult to fix)
     
     mem.par <- par(mar = mar)
@@ -99,7 +102,12 @@ function(x, y = NULL, z = NULL, color = par("col"),
 
 ### 3D-highlighting / colors / sort by y
     if(type == "p" || type == "h") {
-        dat <- dat[ order(dat$y)[n:1], ]
+        y.ord <- rev(order(dat$y))    
+        dat <- dat[y.ord, ]
+        if(length(pch) > 1)
+            if(length(pch) != length(y.ord))
+                stop("length(pch) must be equal length(x) or 1 !")
+            else pch <- pch[y.ord]
         if(highlight.3d)
             dat$col <- rgb((1:n / n) * (y.range[2] - dat$y) / diff(y.range), g=0, b=0)
     }
@@ -154,7 +162,8 @@ function(x, y = NULL, z = NULL, color = par("col"),
     if(angle.2) {x1 <- x.min + yx.f * y.max; x2 <- x.max}
     else        {x1 <- x.min; x2 <- x.max + yx.f * y.max}
     plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
-    temp <- strwidth(as.character(y.scal * y.max + round(y.add, 0)), cex=cex.lab)
+    temp <- strwidth(as.character(y.scal * y.max + round(y.add, 0)), 
+        cex = cex.lab/par("cex"))
     if(angle.2) x1 <- x1 - temp - y.margin.add
     else x2 <- x2 + temp + y.margin.add
     plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
@@ -219,7 +228,7 @@ function(x, y = NULL, z = NULL, color = par("col"),
             text(j * yx.f + ifelse(angle.2, x.min, x.max), 
                  j * yz.f + z.min, y.ticklabs,
                 pos = ifelse(angle.1, 2, 4), offset = 1, 
-                col=col.lab, cex=cex.lab, font=font.lab)
+                col=col.lab, cex = cex.lab/par("cex"), font=font.lab)
         }
     }
     if(axis) { ## axis and labels
@@ -267,9 +276,9 @@ function(x, y = NULL, z = NULL, color = par("col"),
     if(type == "h") {
         z2 <- dat$y * yz.f + z.min
         segments(x, z, x, z2, col = col, cex = cex.symbols, ...)
-        points(x, z, type = "p", col = col, cex = cex.symbols, ...)
+        points(x, z, type = "p", col = col, pch = pch, cex = cex.symbols, ...)
     }
-    else points(x, z, type = type, col = col, cex = cex.symbols, ...)
+    else points(x, z, type = type, col = col, pch = pch, cex = cex.symbols, ...)
 
 ### box-lines in front of points (overlay)
     if(axis && box) {

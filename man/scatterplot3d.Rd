@@ -5,10 +5,10 @@
   Plots a three dimensional (3D) point cloud perspectively.
 }
 \usage{
-scatterplot3d(x, y=NULL, z=NULL, color=par("col"), main=NULL,
-    sub=NULL, xlim=NULL, ylim=NULL, zlim=NULL, xlab=NULL,
-    ylab=NULL, zlab=NULL, scale.y=1, angle=40, axis=TRUE,
-    tick.marks=TRUE, label.tick.marks=TRUE, 
+scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
+    main=NULL, sub=NULL, xlim=NULL, ylim=NULL, zlim=NULL, 
+    xlab=NULL, ylab=NULL, zlab=NULL, scale.y=1, angle=40, 
+    axis=TRUE, tick.marks=TRUE, label.tick.marks=TRUE, 
     x.ticklabs=NULL, y.ticklabs=NULL, z.ticklabs=NULL,
     y.margin.add=0, grid=TRUE, box=TRUE, lab=par("lab"),
     lab.z=mean(lab[1:2]), type=par("type"), highlight.3d=FALSE,
@@ -25,6 +25,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), main=NULL,
  \item{z}{the z coordinates of points in the plot, optional if \code{x} is an appropriate structure.}
  \item{color}{colors of points in the plot, optional if \code{x} is an appropriate structure.  
 Will be ignored if \code{highlight.3d = TRUE}.}
+ \item{pch}{plotting "character", i.e. symbol to use.}
  \item{main}{an overall title for the plot.}
  \item{sub}{sub-title.}
  \item{xlim, ylim, zlim}{the x, y and z limits (min, max) of the plot.}

@@ -2,8 +2,9 @@ scatterplot3d <-
 function(x, y = NULL, z = NULL, color = par("col"),
      main = NULL, sub = NULL, xlim = NULL, ylim = NULL, zlim = NULL,
      xlab = NULL, ylab = NULL, zlab = NULL, scale.y = 1, angle = 40,
-     axis = TRUE, tick.marks = TRUE, label.tick.marks = TRUE, grid = TRUE,
-     box = TRUE, lab = par("lab"), lab.z = mean(lab[1:2]),  
+     axis = TRUE, tick.marks = TRUE, label.tick.marks = TRUE, 
+     x.ticklabs = NULL, y.ticklabs = NULL, z.ticklabs = NULL, 
+     grid = TRUE, box = TRUE, lab = par("lab"), lab.z = mean(lab[1:2]),  
      type = par("type"), highlight.3d = FALSE, mar = c(5, 3, 4, 3) + 0.1,
      col.axis = par("col.axis"), col.grid= "grey", col.lab= par("col.lab"),
      cex.axis = par("cex.axis"), cex.lab = 0.8 * par("cex.lab"),
@@ -11,9 +12,11 @@ function(x, y = NULL, z = NULL, color = par("col"),
      lty.axis = par("lty"), lty.grid = par("lty"), log = "", ...) 
      # log not yet implemented
 { 
-    ##  scatterplot3d, 0.3.3 , 20.09.00,
+    ##  scatterplot3d, 0.3.4, 08.01.2001,
     ##  Uwe Ligges <ligges@statistik.uni-dortmund.de>,
     ##      http://www.statistik.uni-dortmund.de/leute/ligges.htm
+    ##
+    ## For MANY ideas and improvements thanks to Martin Maechler!!!
     ##
     ## 0.3.0: New design: box, pretty() for ticks, ...
     ## 0.3.1: par("las") bug patched, scale.y is changed (code and default)
@@ -21,6 +24,12 @@ function(x, y = NULL, z = NULL, color = par("col"),
     ##        tick mark labeling changed (using mtext)
     ##        par("mar") is set in the first line, not very general!
     ## 0.3.3: new argument "mar", more details in the help files
+    ## 0.3.4: new arguments x/y/z.ticklabs, thanks to Ben Bolker!
+    ##        bug fix: adj for tick.mark.labels corrected
+    
+    ## UNfixed bugs:
+    ##        - pch doesn't work vectorized because of y-sorting 
+    ##        - xlim, ylim, zlim don't work *exactly* for enlarged areas (difficult to fix)
     
     mem.par <- par(mar = mar)
     x.scal <- y.scal <- z.scal <- 1
@@ -183,17 +192,26 @@ function(x, y = NULL, z = NULL, color = par("col"),
             ## X
             j <- subset(temp <- pretty(x.range, n = lab[1]), 
                 temp <= x.range[2] & temp >= x.range[1])
-            mytext(j * x.scal, side = 1, at = j)
+            if(is.null(x.ticklabs))
+                x.ticklabs <- j * x.scal
+            mytext(x.ticklabs, side = 1, at = j)
             ## Z
             j <- subset(temp <- pretty(z.range, n = lab.z), 
                 temp <= z.range[2] & temp >= z.range[1])
-            mytext(j * z.scal, side = ifelse(angle.1, 4, 2), at = j)
+            if(is.null(z.ticklabs))
+                z.ticklabs <- j * z.scal
+            mytext(z.ticklabs, side = ifelse(angle.1, 4, 2), at = j,
+                adj = ifelse((0 < las) && (las < 3), 1, NA))
             ## Y
             j <- subset(temp <- pretty(c(0, y.max), n = lab[2]), 
                 temp <= y.max & temp >= 0)
-            temp <- if(angle > 2) j[length(j):1] else j ## turn y-labels around
+            temp <- if(angle > 2) rev(j) else j ## turn y-labels around
+            if(is.null(y.ticklabs))
+                y.ticklabs <- y.scal * temp + round(y.add, 0)
+            else if (angle > 2)
+                y.ticklabs <- rev(y.ticklabs)
             text(j * yx.f + ifelse(angle.2, x.min, x.max), 
-                j * yz.f + z.min, y.scal * temp + round(y.add, 0), 
+                 j * yz.f + z.min, y.ticklabs,
                 pos = ifelse(angle.1, 2, 4), offset = 1, 
                 col=col.lab, cex=cex.lab, font=font.lab)
         }

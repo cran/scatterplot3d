@@ -8,8 +8,9 @@
 scatterplot3d(x, y=NULL, z=NULL, color=par("col"), main=NULL,
     sub=NULL, xlim=NULL, ylim=NULL, zlim=NULL, xlab=NULL,
     ylab=NULL, zlab=NULL, scale.y=1, angle=40, axis=TRUE,
-    tick.marks=TRUE, label.tick.marks=TRUE, grid=TRUE,
-    box=TRUE, lab=par("lab"), lab.z=mean(lab[1:2]),
+    tick.marks=TRUE, label.tick.marks=TRUE, 
+    x.ticklabs=NULL, y.ticklabs=NULL, z.ticklabs=NULL, 
+    grid=TRUE, box=TRUE, lab=par("lab"), lab.z=mean(lab[1:2]),
     type=par("type"), highlight.3d=FALSE, mar=c(5,3,4,3)+0.1,
     col.axis=par("col.axis"), col.grid="grey",
     col.lab=par("col.lab"), cex.axis=par("cex.axis"),
@@ -34,6 +35,7 @@ For 180 < angle < 360  the returned functions \code{xyz.convert} and \code{point
  \item{tick.marks}{a logical value indicating whether tick marks should be drawn on the plot (only if \code{axis = TRUE}).}
  \item{label.tick.marks}{a logical value indicating whether tick marks should be labeled on the plot 
 (only if \code{axis = TRUE} and \code{tick.marks = TRUE}).}
+ \item{x.ticklabs, y.ticklabs, z.ticklabs}{vector of tick mark labels.}
  \item{grid}{a logical value indicating whether a grid should be drawn on the plot.}
  \item{box}{a logical value indicating whether a box should be drawn around the plot.}
  \item{lab}{a numerical vector of the form c(x, y, len).  
@@ -108,11 +110,23 @@ and at last as arguments in \code{par}.
         main="scatterplot3d -- example 3")
 
     ## example 4
+    my.mat <- matrix(runif(25), nrow=5)
+    dimnames(my.mat) <- list(LETTERS[1:5], letters[11:15])
+    my.mat # the matrix we want to plot ...
+    
+    s3d.dat <- data.frame(cols=as.vector(col(my.mat)), 
+        rows=as.vector(row(my.mat)), 
+        value=as.vector(my.mat))
+    scatterplot3d(s3d.dat, type="h", lwd=5, pch=" ", 
+        x.ticklabs=colnames(my.mat), y.ticklabs=rownames(my.mat), 
+        color=grey(25:1/40), main="scatterplot3d -- example 4")
+
+    ## example 5
     data(trees)
     s3d <- scatterplot3d(trees, type="h", highlight.3d=TRUE, 
-        pch=16, main="scatterplot3d -- example 4")
+        pch=16, main="scatterplot3d -- example 5")
     # Now adding some points to the "scatterplot3d"
     s3d$points3d(seq(10,20,2), seq(85,60,-5), seq(60,10,-10), 
-        col="blue", type="h", pch=16)
+        col="blue", type="h", pch=16)        
 }
 \keyword{hplot}

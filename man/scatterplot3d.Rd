@@ -169,15 +169,18 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
   s3d$plane3d(my.lm, lty.box = "solid")
   
   ## example 6; by Martin Maechler
-  cubedraw <- function(res3d, min = 0, max = 255, cex = 2)
+  cubedraw <- function(res3d, min = 0, max = 255, cex = 2, text. = FALSE)
   {
-    # Purpose: Draw nice cube with corners
-    cube01 <- rbind(c(0,0,1),0,c(1,0,0),c(1,1,0),1,c(0,1,1),c(0,0,1),
-                      c(1,0,1),c(1,0,0),c(1,0,1),1,c(1,1,0),
-                      c(0,1,0),c(0,1,1),  c(0,1,0),0)
+    ## Purpose: Draw nice cube with corners
+    cube01 <- rbind(c(0,0,1), 0, c(1,0,0), c(1,1,0), 1, c(0,1,1), # < 6 outer
+                    c(1,0,1), c(0,1,0)) # <- "inner": fore- & back-ground
     cub <- min + (max-min)* cube01
-    res3d$points3d(cub[ 1:11,], cex = cex, type = 'b', lty = 1)
-    res3d$points3d(cub[11:15,], cex = cex, type = 'b', lty = 3)
+    ## visibile corners + lines:
+    res3d$points3d(cub[c(1:6,1,7,3,7,5) ,], cex = cex, type = 'b', lty = 1)
+    ## hidden corner + lines
+    res3d$points3d(cub[c(2,8,4,8,6),     ], cex = cex, type = 'b', lty = 3)
+    if(text.)## debug
+        text(res3d$xyz.convert(cub), labels=1:nrow(cub), col='tomato', cex=2)
   }
   ## 6 a) The named colors in R, i.e. colors()
   cc <- colors()

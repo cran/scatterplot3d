@@ -7,13 +7,13 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
      y.margin.add = 0, grid = TRUE, box = TRUE, lab = par("lab"),
      lab.z = mean(lab[1:2]), type = par("type"), highlight.3d = FALSE,
      mar = c(5, 3, 4, 3) + 0.1, col.axis = par("col.axis"),
-     col.grid= "grey", col.lab= par("col.lab"), cex.symbols = par("cex"),
+     col.grid = "grey", col.lab = par("col.lab"), cex.symbols = par("cex"),
      cex.axis = par("cex.axis"), cex.lab = 0.8 * par("cex.lab"),
      font.axis = par("font.axis"), font.lab = par("font.lab"),
      lty.axis = par("lty"), lty.grid = par("lty"), log = "", ...) 
      # log not yet implemented
 { 
-    ## scatterplot3d, 0.3-12, 15.09.2002,
+    ## scatterplot3d, 0.3-13, 19.01.2003,
     ## Uwe Ligges <ligges@statistik.uni-dortmund.de>,
     ## http://www.statistik.uni-dortmund.de/leute/ligges.htm
     ##
@@ -142,7 +142,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     if(angle.2) {x1 <- x.min + yx.f * y.max; x2 <- x.max}
     else        {x1 <- x.min; x2 <- x.max + yx.f * y.max}
     plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
-    temp <- strwidth(format(y.prty)[1], cex = cex.lab/par("cex"))
+    temp <- strwidth(format(rev(y.prty))[1], cex = cex.lab/par("cex"))
     if(angle.2) x1 <- x1 - temp - y.margin.add
     else x2 <- x2 + temp + y.margin.add
     plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
@@ -213,11 +213,12 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
         lines(c(x.min, x.max), c(z.min, z.min), col = col.axis, lty = lty.axis)
         mytext(xlab, line = 1.5, side = 1, at = mean(x.range))
         ## Y
-        lines(c(x.max, x.max + y.max * yx.f), c(z.min, y.max * yz.f + z.min),
+        lines(ifelse(angle.2, x.min, x.max) + c(0, y.max * yx.f), c(z.min, y.max * yz.f + z.min),
             col = col.axis, lty = lty.axis)
         mytext(ylab, side = ifelse(angle.1, 2, 4), at = z.min + y.max * yz.f, line = .5)
         ## Z
-        lines(c(x.min, x.min), c(z.min, z.max), col = col.axis, lty = lty.axis)
+        lines(rep(ifelse(angle.2, x.max, x.min), 2), c(z.min, z.max), 
+            col = col.axis, lty = lty.axis)
         mytext(zlab, line = 1.5, side = ifelse(angle.1, 4, 2), at = mean(z.range))
         if(box) {
             ## X
@@ -230,7 +231,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             ## Y
             temp <- c(0, y.max * yx.f)
             temp1 <- c(0, y.max * yz.f)
-            lines(temp + x.min, temp1 + z.min, col = col.axis, lty = lty.axis)
+            lines(temp + ifelse(angle.2, x.max, x.min), temp1 + z.min, col = col.axis, lty = lty.axis)
             lines(temp + x.min, temp1 + z.max, col = col.axis, lty = lty.axis)
             ## Z
             temp <- yx.f * y.max
@@ -259,14 +260,14 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             col = col.axis, lty = lty.axis)  
         lines(c(0, y.max * yx.f) + x.max, c(0, y.max * yz.f) + z.max, 
             col = col.axis, lty = lty.axis)
-        lines(c(x.max, x.max), c(z.min, z.max), 
+        lines(rep(ifelse(angle.2, x.min, x.max), 2), c(z.min, z.max), 
             col = col.axis, lty = lty.axis)                    
     }
     
     par(mem.par)
 ### Return Function Object
     ob <- ls() ## remove all unused objects from the result's enviroment:
-    rm(list = ob[!ob %in% c("x.scal", "y.scal", "z.scal", "yx.f", 
+    rm(list = ob[!ob %in% c("mar", "x.scal", "y.scal", "z.scal", "yx.f", 
         "yz.f", "y.add", "z.min", "z.max", "x.min", "x.max", "y.max")])
     rm(ob)
     invisible(list(
@@ -281,12 +282,14 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             y2 <- (xyz$y - y.add) / y.scal
             x <- xyz$x / x.scal + yx.f * y2
             y <- xyz$z / z.scal + yz.f * y2
+            mem.par <- par(mar = mar)
             if(type == "h") {
                 y2 <- z.min + yz.f * y2
                 segments(x, y, x, y2, ...)
                 points(x, y, type = "p", ...)
             }
             else points(x, y, type = type, ...)
+            par(mem.par)
         },
         plane3d = function(Intercept, x.coef = NULL, y.coef = NULL, lty = "dashed", ...){
             if(!is.null(coef(Intercept))) Intercept <- coef(Intercept)
@@ -295,6 +298,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
                 y.coef <- Intercept[3]
                 Intercept <- Intercept[1]
             }
+            mem.par <- par(mar = mar)            
             x <- x.min:x.max
             x.coef <- x.coef * x.scal
             z1 <- (Intercept + x * x.coef + y.add * y.coef) / z.scal
@@ -307,12 +311,17 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             z2 <- (Intercept + x.max * x.coef + y.coef) / z.scal
             segments(x.min + y * yx.f, z1 + y * yz.f, 
                 x.max + y * yx.f, z2 + y * yz.f, lty = lty, ...)
+            par(mem.par)
         },
         box3d = function(...){
+            mem.par <- par(mar = mar)
             lines(c(x.min, x.max), c(z.max, z.max), ...)  
             lines(c(0, y.max * yx.f) + x.max, c(0, y.max * yz.f) + z.max, ...)
+            lines(c(0, y.max * yx.f) + x.min, c(0, y.max * yz.f) + z.max, ...)
             lines(c(x.max, x.max), c(z.min, z.max), ...) 
+            lines(c(x.min, x.min), c(z.min, z.max), ...) 
             lines(c(x.min, x.max), c(z.min, z.min), ...)
+            par(mem.par)
         }
     ))
 }

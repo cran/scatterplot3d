@@ -28,7 +28,8 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
  \item{pch}{plotting "character", i.e. symbol to use.}
  \item{main}{an overall title for the plot.}
  \item{sub}{sub-title.}
- \item{xlim, ylim, zlim}{the x, y and z limits (min, max) of the plot.}
+ \item{xlim, ylim, zlim}{the x, y and z limits (min, max) of the plot. Note that setting enlarged limits 
+    may not work as exactly as expected (a known but unfixed bug).}
  \item{xlab, ylab, zlab}{titles for the x, y and z axis.}
  \item{scale.y}{scale of y axis related to x- and z axis.}
  \item{angle}{angle between x and y axis (Attention: result depends on
@@ -77,11 +78,10 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
   \item{box3d}{function which "refreshes" the box surrounding the plot.}
 }
 \references{
- Ligges, U., and Maechler, M. (2002): 
+ Ligges, U., and Maechler, M. (2003): 
  Scatterplot3d -- an R Package for Visualizing Multivariate Data. 
- \emph{Technical Report 22/2002}. 
- SFB 475, Department of Statistics, University of Dortmund, Germany.
- \url{http://www.statistik.uni-dortmund.de/sfb475/en/tr-e.html}
+ \emph{Journal of Statistical Software} 8(11), 1--20. 
+ \url{http://www.jstatsoft.org/}
 }
 \note{
   Some graphical parameters should only be set as arguments in
@@ -163,5 +163,31 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
   attach(trees)
   my.lm <- lm(Volume ~ Girth + Height)
   s3d$plane3d(my.lm)
+  
+  ## example 6; by Martin Maechler
+  cubedraw <- function(res3d, min = 0, max = 255, cex = 2)
+  {
+    # Purpose: Draw nice cube with corners
+    cube01 <- rbind(c(0,0,1),0,c(1,0,0),c(1,1,0),1,c(0,1,1),c(0,0,1),
+                      c(1,0,1),c(1,0,0),c(1,0,1),1,c(1,1,0),
+                      c(0,1,0),c(0,1,1),  c(0,1,0),0)
+    cub <- min + (max-min)* cube01
+    res3d$points3d(cub[ 1:11,], cex = cex, type = 'b', lty = 1)
+    res3d$points3d(cub[11:15,], cex = cex, type = 'b', lty = 3)
+  }
+  ## 6 a) The named colors in R, i.e. colors()
+  cc <- colors()
+  crgb <- t(col2rgb(cc))
+  par(xpd = TRUE)
+  rr <- scatterplot3d(crgb, color = cc, box = FALSE, angle = 24,
+      xlim = c(-50, 300), ylim = c(-50, 300), zlim = c(-50, 300))
+  cubedraw(rr)
+  ## 6 b) The rainbow colors from rainbow(201)
+  rbc <- rainbow(201)
+  Rrb <- t(col2rgb(rbc))
+  rR <- scatterplot3d(Rrb, color = rbc, box = FALSE, angle = 24,
+      xlim = c(-50, 300), ylim = c(-50, 300), zlim = c(-50, 300))
+  cubedraw(rR)
+  rR$points3d(Rrb, col = rbc, pch = 16)
 }
 \keyword{hplot}

@@ -2,7 +2,7 @@ scatterplot3d <-
 function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
      main = NULL, sub = NULL, xlim = NULL, ylim = NULL, zlim = NULL,
      xlab = NULL, ylab = NULL, zlab = NULL, scale.y = 1, angle = 40,
-     axis = TRUE, tick.marks = TRUE, label.tick.marks = TRUE, 
+     axis = TRUE, tick.marks = TRUE, label.tick.marks = TRUE,
      x.ticklabs = NULL, y.ticklabs = NULL, z.ticklabs = NULL,
      y.margin.add = 0, grid = TRUE, box = TRUE, lab = par("lab"),
      lab.z = mean(lab[1:2]), type = par("type"), highlight.3d = FALSE,
@@ -10,12 +10,12 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
      col.grid = "grey", col.lab = par("col.lab"), cex.symbols = par("cex"),
      cex.axis = par("cex.axis"), cex.lab = 0.8 * par("cex.lab"),
      font.axis = par("font.axis"), font.lab = par("font.lab"),
-     lty.axis = par("lty"), lty.grid = par("lty"), log = "", ...) 
+     lty.axis = par("lty"), lty.grid = par("lty"), log = "", ...)
      # log not yet implemented
-{ 
-    ## scatterplot3d, 0.3-13, 19.01.2003,
+{
+    ## scatterplot3d, 0.3-14, 09.11.2003,
     ## Uwe Ligges <ligges@statistik.uni-dortmund.de>,
-    ## http://www.statistik.uni-dortmund.de/leute/ligges.htm
+    ## http://www.statistik.uni-dortmund.de/~ligges
     ##
     ## For MANY ideas and improvements thanks to Martin Maechler!!!
     ## Parts of the help files are stolen from the standard plotting functions in R.
@@ -29,7 +29,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     if(highlight.3d && !missing(color))
         warning(message = "color is ignored when  highlight.3d = TRUE")
     if(length(x) < 2) stop("Minimal required length of x is 2 !")
-    
+
     ## color as part of `x' (data.frame or list):
     if(!is.null(d <- dim(x)) && (length(d) == 2) && (d[2] >= 4))
         color <- x[,4]
@@ -56,8 +56,8 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
         temp <- xlab;  xlab <- ylab;   ylab <- temp
         temp <- xlim;  xlim <- ylim;   ylim <- temp
     }
-    angle.1 <- ifelse((2 > angle && angle > 1) || angle > 3, TRUE, FALSE)
-    angle.2 <- ifelse(1 > angle || angle > 3, FALSE, TRUE)
+    angle.1 <- (1 < angle && angle < 2) || angle > 3
+    angle.2 <- 1 <= angle && angle <= 3
     dat <- cbind(as.data.frame(xyz[c("x","y","z")]), col = color)
 
     ## xlim, ylim, zlim -- select the points inside the limits
@@ -82,7 +82,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
 
 ### 3D-highlighting / colors / sort by y
     if(type == "p" || type == "h") {
-        y.ord <- rev(order(dat$y))    
+        y.ord <- rev(order(dat$y))
         dat <- dat[y.ord, ]
         if(length(pch) > 1)
             if(length(pch) != length(y.ord))
@@ -96,7 +96,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     p.lab <- par("lab")
     ## Y
     y.range <- range(dat$y, ylim)
-    y.prty <- pretty(y.range, n = lab[2], 
+    y.prty <- pretty(y.range, n = lab[2],
         min.n = max(1, min(.5 * lab[2], p.lab[2])))
     y.scal <- round(diff(y.prty[1:2]), digits = 12)
     y.add <- min(y.prty)
@@ -108,7 +108,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     x.range <- range(dat$x[is.finite(dat$x)], xlim)
     if(all(diff(x.range) == 0))
         stop("All points have the same X-value! Use 2D-plot!")
-    x.prty <- pretty(x.range, n = lab[1], 
+    x.prty <- pretty(x.range, n = lab[1],
         min.n = max(1, min(.5 * lab[1], p.lab[1])))
     x.scal <- round(diff(x.prty[1:2]), digits = 12)
     dat$x <- dat$x / x.scal
@@ -124,7 +124,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     z.range <- range(dat$z[is.finite(dat$z)], zlim)
     if(all(diff(z.range) == 0))
         stop("All points have the same Z-value! Use 2D-plot!")
-    z.prty <- pretty(z.range, n = lab.z, 
+    z.prty <- pretty(z.range, n = lab.z,
         min.n = max(1, min(.5 * lab.z, p.lab[2])))
     z.scal <- round(diff(z.prty[1:2]), digits = 12)
     dat$z <- dat$z / z.scal
@@ -144,7 +144,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
     temp <- strwidth(format(rev(y.prty))[1], cex = cex.lab/par("cex"))
     if(angle.2) x1 <- x1 - temp - y.margin.add
-    else x2 <- x2 + temp + y.margin.add
+    else        x2 <- x2 + temp + y.margin.add
     plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
     if(angle > 2) par("usr" = par("usr")[c(2, 1, 3:4)])
     title(main, sub, ...)
@@ -161,85 +161,86 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
                  x.max + (i * yx.f), i * yz.f + z.min,
                  col = col.grid, lty = lty.grid)
     }
-    if(tick.marks && axis) { ## tick marks
-        xtl <- (z.max - z.min) * (tcl <- -par("tcl")) / 50
-        ztl <- (x.max - x.min) * tcl / 50
-        ## Y
-        i.y <- 0:y.max
-        temp <- ifelse(angle.2, x.min, x.max)
-        segments(yx.f * i.y - ztl + temp, yz.f * i.y + z.min,
-                 yx.f * i.y + ztl + temp, yz.f * i.y + z.min,
-                 col=col.axis, lty=lty.axis)
-        ## X
-        i.x <- x.min:x.max
-        segments(i.x, -xtl + z.min, i.x, xtl + z.min, col=col.axis, lty=lty.axis)
-        ## Z
-        i.z <- z.min:z.max
-        temp <- ifelse(angle.2, x.max, x.min)
-        segments(-ztl + temp, i.z, ztl + temp, i.z, col=col.axis, lty=lty.axis)
-
-        if(label.tick.marks) { ## label tick marks
-            las <- par("las")
-            mytext <- function(labels, side, at, ...)
-                mtext(text = labels, side = side, at = at, line = -.5,
-                    col=col.lab, cex=cex.lab, font=font.lab, ...)
-            ## X
-            if(is.null(x.ticklabs))
-                x.ticklabs <- format(i.x * x.scal)
-            mytext(x.ticklabs, side = 1, at = i.x)
-            ## Z
-            if(is.null(z.ticklabs))
-                z.ticklabs <- format(i.z * z.scal)
-            mytext(z.ticklabs, side = ifelse(angle.1, 4, 2), at = i.z,
-                adj = ifelse((0 < las) && (las < 3), 1, NA))
+    if(axis) {
+        xx <- if(angle.2) c(x.min, x.max) else c(x.max, x.min)
+        if(tick.marks) { ## tick marks
+            xtl <- (z.max - z.min) * (tcl <- -par("tcl")) / 50
+            ztl <- (x.max - x.min) * tcl / 50
+            mysegs <- function(x0,y0, x1,y1)
+                segments(x0,y0, x1,y1, col=col.axis, lty=lty.axis)
             ## Y
-            temp <- if(angle > 2) rev(i.y) else i.y ## turn y-labels around
-            if(is.null(y.ticklabs))
-                y.ticklabs <- format(y.prty)
-            else if (angle > 2)
-                y.ticklabs <- rev(y.ticklabs)
-            text(i.y * yx.f + ifelse(angle.2, x.min, x.max), 
-                 i.y * yz.f + z.min, y.ticklabs,
-                pos=ifelse(angle.1, 2, 4), offset=1, 
-                col=col.lab, cex=cex.lab/par("cex"), font=font.lab)
+            i.y <- 0:y.max
+            mysegs(yx.f * i.y - ztl + xx[1], yz.f * i.y + z.min,
+                   yx.f * i.y + ztl + xx[1], yz.f * i.y + z.min)
+            ## X
+            i.x <- x.min:x.max
+            mysegs(i.x, -xtl + z.min, i.x, xtl + z.min)
+            ## Z
+            i.z <- z.min:z.max
+            mysegs(-ztl + xx[2], i.z, ztl + xx[2], i.z)
+
+            if(label.tick.marks) { ## label tick marks
+                las <- par("las")
+                mytext <- function(labels, side, at, ...)
+                    mtext(text = labels, side = side, at = at, line = -.5,
+                          col=col.lab, cex=cex.lab, font=font.lab, ...)
+                ## X
+                if(is.null(x.ticklabs))
+                    x.ticklabs <- format(i.x * x.scal)
+                mytext(x.ticklabs, side = 1, at = i.x)
+                ## Z
+                if(is.null(z.ticklabs))
+                    z.ticklabs <- format(i.z * z.scal)
+                mytext(z.ticklabs, side = if(angle.1) 4 else 2, at = i.z,
+                       adj = if(0 < las && las < 3) 1 else NA)
+                ## Y
+                temp <- if(angle > 2) rev(i.y) else i.y ## turn y-labels around
+                if(is.null(y.ticklabs))
+                    y.ticklabs <- format(y.prty)
+                else if (angle > 2)
+                    y.ticklabs <- rev(y.ticklabs)
+                text(i.y * yx.f + xx[1],
+                     i.y * yz.f + z.min, y.ticklabs,
+                     pos=if(angle.1) 2 else 4, offset=1,
+                     col=col.lab, cex=cex.lab/par("cex"), font=font.lab)
+            }
         }
-    }
-    if(axis) { ## axis and labels
-        mytext <- 
-            function(lab, side = side, at = at, ...)
-            mtext(lab, side = side, at = at, col = col.lab, 
-                cex = cex.axis, font = font.axis, las = 0, ...)
+
+        ## axis and labels
+
+        mytext <- function(lab, side, line, at)
+            mtext(lab, side = side, line = line, at = at, col = col.lab,
+                  cex = cex.axis, font = font.axis, las = 0)
         ## X
         lines(c(x.min, x.max), c(z.min, z.min), col = col.axis, lty = lty.axis)
-        mytext(xlab, line = 1.5, side = 1, at = mean(x.range))
+        mytext(xlab, 1, line = 1.5, at = mean(x.range))
         ## Y
-        lines(ifelse(angle.2, x.min, x.max) + c(0, y.max * yx.f), c(z.min, y.max * yz.f + z.min),
-            col = col.axis, lty = lty.axis)
-        mytext(ylab, side = ifelse(angle.1, 2, 4), at = z.min + y.max * yz.f, line = .5)
+        lines(xx[1] + c(0, y.max * yx.f), c(z.min, y.max * yz.f + z.min),
+              col = col.axis, lty = lty.axis)
+        mytext(ylab, if(angle.1) 2 else 4, line= 0.5, at = z.min + y.max * yz.f)
         ## Z
-        lines(rep(ifelse(angle.2, x.max, x.min), 2), c(z.min, z.max), 
-            col = col.axis, lty = lty.axis)
-        mytext(zlab, line = 1.5, side = ifelse(angle.1, 4, 2), at = mean(z.range))
+        lines(xx[c(2,2)], c(z.min, z.max), col = col.axis, lty = lty.axis)
+        mytext(zlab, if(angle.1) 4 else 2, line= 1.5, at = mean(z.range))
         if(box) {
             ## X
             temp <- yx.f * y.max
             temp1 <- yz.f * y.max
-            lines(c(x.min + temp, x.max + temp), 
-                c(z.min + temp1, z.min + temp1), col = col.axis, lty = lty.axis)
-            lines(c(x.min + temp, x.max + temp), c(temp1 + z.max, temp1 + z.max), 
-                col = col.axis, lty = lty.axis)
+            lines(c(x.min + temp, x.max + temp),
+                  c(z.min + temp1, z.min + temp1), col = col.axis, lty = lty.axis)
+            lines(c(x.min + temp, x.max + temp), c(temp1 + z.max, temp1 + z.max),
+                  col = col.axis, lty = lty.axis)
             ## Y
             temp <- c(0, y.max * yx.f)
             temp1 <- c(0, y.max * yz.f)
-            lines(temp + ifelse(angle.2, x.max, x.min), temp1 + z.min, col = col.axis, lty = lty.axis)
+            lines(temp + xx[2], temp1 + z.min, col = col.axis, lty = lty.axis)
             lines(temp + x.min, temp1 + z.max, col = col.axis, lty = lty.axis)
             ## Z
             temp <- yx.f * y.max
             temp1 <- yz.f * y.max
-            lines(c(temp + x.min, temp + x.min), c(z.min + temp1, z.max + temp1), 
-                col = col.axis, lty = lty.axis)
-            lines(c(x.max + temp, x.max + temp), c(z.min + temp1, z.max + temp1), 
-                col = col.axis, lty = lty.axis)
+            lines(c(temp + x.min, temp + x.min), c(z.min + temp1, z.max + temp1),
+                  col = col.axis, lty = lty.axis)
+            lines(c(x.max + temp, x.max + temp), c(z.min + temp1, z.max + temp1),
+                  col = col.axis, lty = lty.axis)
         }
     }
 
@@ -256,26 +257,25 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
 
 ### box-lines in front of points (overlay)
     if(axis && box) {
-        lines(c(x.min, x.max), c(z.max, z.max), 
-            col = col.axis, lty = lty.axis)  
-        lines(c(0, y.max * yx.f) + x.max, c(0, y.max * yz.f) + z.max, 
-            col = col.axis, lty = lty.axis)
-        lines(rep(ifelse(angle.2, x.min, x.max), 2), c(z.min, z.max), 
-            col = col.axis, lty = lty.axis)                    
+        lines(c(x.min, x.max), c(z.max, z.max),
+              col = col.axis, lty = lty.axis)
+        lines(c(0, y.max * yx.f) + x.max, c(0, y.max * yz.f) + z.max,
+              col = col.axis, lty = lty.axis)
+        lines(xx[c(1,1)], c(z.min, z.max), col = col.axis, lty = lty.axis)
     }
-    
+
     par(mem.par)
 ### Return Function Object
     ob <- ls() ## remove all unused objects from the result's enviroment:
-    rm(list = ob[!ob %in% c("mar", "x.scal", "y.scal", "z.scal", "yx.f", 
+    rm(list = ob[!ob %in% c("mar", "x.scal", "y.scal", "z.scal", "yx.f",
         "yz.f", "y.add", "z.min", "z.max", "x.min", "x.max", "y.max")])
     rm(ob)
     invisible(list(
         xyz.convert = function(x, y=NULL, z=NULL) {
             xyz <- xyz.coords(x, y, z)
             y <- (xyz$y - y.add) / y.scal
-            return(x = xyz$x / x.scal + yx.f * y,
-                y = xyz$z / z.scal + yz.f * y)
+            return(list(x = xyz$x / x.scal + yx.f * y,
+                y = xyz$z / z.scal + yz.f * y))
         },
         points3d = function(x, y = NULL, z = NULL, type = "p", ...) {
             xyz <- xyz.coords(x, y, z)
@@ -298,28 +298,28 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
                 y.coef <- Intercept[3]
                 Intercept <- Intercept[1]
             }
-            mem.par <- par(mar = mar)            
+            mem.par <- par(mar = mar)
             x <- x.min:x.max
             x.coef <- x.coef * x.scal
             z1 <- (Intercept + x * x.coef + y.add * y.coef) / z.scal
-            z2 <- (Intercept + x * x.coef +  
+            z2 <- (Intercept + x * x.coef +
                 (y.max * y.scal + y.add) * y.coef) / z.scal
             segments(x, z1, x + y.max * yx.f, z2 + yz.f * y.max, lty = lty, ...)
             y <- 0:y.max
             y.coef <- (y * y.scal + y.add) * y.coef
             z1 <- (Intercept + x.min * x.coef + y.coef) / z.scal
             z2 <- (Intercept + x.max * x.coef + y.coef) / z.scal
-            segments(x.min + y * yx.f, z1 + y * yz.f, 
+            segments(x.min + y * yx.f, z1 + y * yz.f,
                 x.max + y * yx.f, z2 + y * yz.f, lty = lty, ...)
             par(mem.par)
         },
         box3d = function(...){
             mem.par <- par(mar = mar)
-            lines(c(x.min, x.max), c(z.max, z.max), ...)  
+            lines(c(x.min, x.max), c(z.max, z.max), ...)
             lines(c(0, y.max * yx.f) + x.max, c(0, y.max * yz.f) + z.max, ...)
             lines(c(0, y.max * yx.f) + x.min, c(0, y.max * yz.f) + z.max, ...)
-            lines(c(x.max, x.max), c(z.min, z.max), ...) 
-            lines(c(x.min, x.min), c(z.min, z.max), ...) 
+            lines(c(x.max, x.max), c(z.min, z.max), ...)
+            lines(c(x.min, x.min), c(z.min, z.max), ...)
             lines(c(x.min, x.max), c(z.min, z.min), ...)
             par(mem.par)
         }

@@ -22,17 +22,21 @@ Changes in 0.3-x releases of scatterplot3d:
          Created this file to reduce the size of the R code.
  0.3-12: bug fix: tick.mark.labels of y axis were sometimes raised
          by a constant or vice versa
-         format() is used to print tick.mark.labels pretty, and smarter 
+         format() is used to print tick.mark.labels pretty, and smarter
          calculation of desired (for y axis tick.mark.labels) plot margins
- 0.3-13: typos in help file    
+ 0.3-13: typos in help file
          box3d() refreshes the right lines for an arbitrary angle now.
-         calculation of space for tick.mark.labels fixed 
+         calculation of space for tick.mark.labels fixed
          (bug was introduced with 0.3-12 ?)
-         Extending s3d requires to set par(mar) to those settings 
-          s3d was generated with, which will be done for points3d(), 
-          plane3d(), and box3d() automatically. 
+         Extending s3d requires to set par(mar) to those settings
+          s3d was generated with, which will be done for points3d(),
+          plane3d(), and box3d() automatically.
           A "Note" has been added to the help file.
-
+ 0.3-14: Reference changed in help file.
+         Suggestions by Martin Maechler:
+         - clean up a lot of code
+         - Added note on unfixed bug to help file.
+	 - Added Martin's great examples 6 a/b: "color cube"
 
 known UNfixed bug:
- xlim, ylim, zlim don't work *exactly* for enlarged areas 
+ xlim, ylim, zlim don't work *exactly* for enlarged areas

@@ -46,6 +46,7 @@ Changes in 0.3-x releases of scatterplot3d:
  0.3-17: bug fix: Example 6 fixed by Martin Maechler
  0.3-18: bug fix: non-finite or NA values of y still did not work, if highlight.3d=TRUE
  0.3-19: CITATION file and package vignette added
+ 0.3-20: NAMESPACE added, translation support for warnings/erorrs added, srcltx.sty added
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

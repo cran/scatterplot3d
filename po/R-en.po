@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: R 2.1.0\n"
+"Report-Msgid-Bugs-To: bugs@r-project.org\n"
+"POT-Creation-Date: 2005-02-06 15:50\n"
+"PO-Revision-Date: 2005-02-06 16:22+0100\n"
+"Last-Translator: Uwe Ligges <ligges@statistik.uni-dortmund.de>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "color is ignored when highlight.3d = TRUE"
+msgstr ""
+
+msgid "length(color)"
+msgstr ""
+
+msgid "must be equal length(x) or 1"
+msgstr ""
+
+msgid "no data left within (x|y|z)lim"
+msgstr ""
+
+msgid "length(pch)"
+msgstr ""
+

@@ -27,7 +27,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     zlabel <- if (!missing(z)) deparse(substitute(z))
     ## verification, init, ...
     if(highlight.3d && !missing(color))
-        warning(message = "color is ignored when  highlight.3d = TRUE")
+        warning("color is ignored when highlight.3d = TRUE")
 
 
     ## color as part of `x' (data.frame or list):
@@ -46,7 +46,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     if(length(color) == 1)
         color <- rep(color, length(xyz$x))
     else if(length(color) != length(xyz$x))
-        stop("length(color) must be equal length(x) or 1 !")
+        stop("length(color) ", "must be equal length(x) or 1")
 
     angle <- (angle %% 360) / 90
     yz.f <- scale.y * abs(if(angle < 1) angle else if(angle > 3) angle - 4 else 2 - angle)
@@ -74,7 +74,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
         dat <- dat[ zlim[1] <= dat$z & dat$z <= zlim[2] , , drop = FALSE]
     }
     n <- nrow(dat)
-    if(n < 1) stop("No data left within (x|y|z)lim")
+    if(n < 1) stop("no data left within (x|y|z)lim")
 
     y.range <- range(dat$y[is.finite(dat$y)])
 
@@ -84,7 +84,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
         dat <- dat[y.ord, ]
         if(length(pch) > 1)
             if(length(pch) != length(y.ord))
-                stop("length(pch) must be equal length(x) or 1 !")
+                stop("length(pch) ", "must be equal length(x) or 1")
             else pch <- pch[y.ord]
         daty <- dat$y
         daty[!is.finite(daty)] <- mean(daty[is.finite(daty)])

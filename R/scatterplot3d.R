@@ -14,7 +14,6 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
      log = "", ...)
      # log not yet implemented
 {
-    ## scatterplot3d, 0.3-15, 21.02.2004,
     ## Uwe Ligges <ligges@statistik.uni-dortmund.de>,
     ## http://www.statistik.uni-dortmund.de/~ligges
     ##
@@ -87,8 +86,10 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             if(length(pch) != length(y.ord))
                 stop("length(pch) must be equal length(x) or 1 !")
             else pch <- pch[y.ord]
-        if(highlight.3d && !(all(diff(dat$y) == 0)))
-            dat$col <- rgb((1:n / n) * (y.range[2] - dat$y) / diff(y.range), g=0, b=0)
+        daty <- dat$y
+        daty[!is.finite(daty)] <- mean(daty[is.finite(daty)])
+        if(highlight.3d && !(all(diff(daty) == 0)))
+            dat$col <- rgb(seq(0, 1, length = n) * (y.range[2] - daty) / diff(y.range), g=0, b=0)
     }
 
 ### optim. axis scaling

@@ -143,6 +143,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     else        x2 <- x2 + temp + y.margin.add
     plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
     if(angle > 2) par("usr" = par("usr")[c(2, 1, 3:4)])
+    usr <- par("usr") # we have to remind it for use in closures
     title(main, sub, ...)
 
 ### draw axis, tick marks, labels, grid, ...
@@ -261,10 +262,11 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
         lines(xx[c(1,1)], c(z.min, z.max), col = col.axis, lty = lty.axis)
     }
 
+
     par(mem.par)
 ### Return Function Object
     ob <- ls() ## remove all unused objects from the result's enviroment:
-    rm(list = ob[!ob %in% c("mar", "x.scal", "y.scal", "z.scal", "yx.f",
+    rm(list = ob[!ob %in% c("mar", "usr", "x.scal", "y.scal", "z.scal", "yx.f",
         "yz.f", "y.add", "z.min", "z.max", "x.min", "x.max", "y.max")])
     rm(ob)
     invisible(list(
@@ -279,14 +281,14 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             y2 <- (xyz$y - y.add) / y.scal
             x <- xyz$x / x.scal + yx.f * y2
             y <- xyz$z / z.scal + yz.f * y2
-            mem.par <- par(mar = mar)
+            mem.par <- par(mar = mar, usr = usr)
+            on.exit(par(mem.par))
             if(type == "h") {
                 y2 <- z.min + yz.f * y2
                 segments(x, y, x, y2, ...)
                 points(x, y, type = "p", ...)
             }
             else points(x, y, type = type, ...)
-            par(mem.par)
         },
         plane3d = function(Intercept, x.coef = NULL, y.coef = NULL, 
             lty = "dashed", lty.box = NULL, ...){
@@ -297,7 +299,8 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
                 y.coef <- Intercept[3]
                 Intercept <- Intercept[1]
             }
-            mem.par <- par(mar = mar)
+            mem.par <- par(mar = mar, usr = usr)
+            on.exit(par(mem.par))
             x <- x.min:x.max
             ltya <- c(lty.box, rep(lty, length(x)-2), lty.box)
             x.coef <- x.coef * x.scal
@@ -312,17 +315,16 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             z2 <- (Intercept + x.max * x.coef + y.coef) / z.scal
             segments(x.min + y * yx.f, z1 + y * yz.f,
                 x.max + y * yx.f, z2 + y * yz.f, lty = ltya, ...)
-            par(mem.par)
         },
         box3d = function(...){
-            mem.par <- par(mar = mar)
+            mem.par <- par(mar = mar, usr = usr)
+            on.exit(par(mem.par))
             lines(c(x.min, x.max), c(z.max, z.max), ...)
             lines(c(0, y.max * yx.f) + x.max, c(0, y.max * yz.f) + z.max, ...)
             lines(c(0, y.max * yx.f) + x.min, c(0, y.max * yz.f) + z.max, ...)
             lines(c(x.max, x.max), c(z.min, z.max), ...)
             lines(c(x.min, x.min), c(z.min, z.max), ...)
             lines(c(x.min, x.max), c(z.min, z.min), ...)
-            par(mem.par)
         }
     ))
 }

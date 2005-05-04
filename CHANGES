@@ -48,7 +48,8 @@ Changes in 0.3-x releases of scatterplot3d:
  0.3-19: CITATION file and package vignette added
  0.3-20: NAMESPACE added, translation support for warnings/erorrs added, srcltx.sty added
  0.3-21: chicago.* added
-
+ 0.3-22: bugfix: retunred closures have to set par("usr") and par("mar") internally 
+          as the former call to scatterplot3d did!
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

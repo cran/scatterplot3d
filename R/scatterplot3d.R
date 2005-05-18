@@ -263,7 +263,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     }
 
 
-    par(mem.par)
+    # par(mem.par) # we MUST NOT set the margins back
 ### Return Function Object
     ob <- ls() ## remove all unused objects from the result's enviroment:
     rm(list = ob[!ob %in% c("mar", "usr", "x.scal", "y.scal", "z.scal", "yx.f",

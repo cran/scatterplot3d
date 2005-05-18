@@ -50,6 +50,8 @@ Changes in 0.3-x releases of scatterplot3d:
  0.3-21: chicago.* added
  0.3-22: bugfix: retunred closures have to set par("usr") and par("mar") internally 
           as the former call to scatterplot3d did!
+ 0.3-23: bugfix: must not reset mar in scatterplot3d!
+
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

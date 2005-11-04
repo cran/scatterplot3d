@@ -5,7 +5,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
      axis = TRUE, tick.marks = TRUE, label.tick.marks = TRUE,
      x.ticklabs = NULL, y.ticklabs = NULL, z.ticklabs = NULL,
      y.margin.add = 0, grid = TRUE, box = TRUE, lab = par("lab"),
-     lab.z = mean(lab[1:2]), type = par("type"), highlight.3d = FALSE,
+     lab.z = mean(lab[1:2]), type = "p", highlight.3d = FALSE,
      mar = c(5, 3, 4, 3) + 0.1, col.axis = par("col.axis"),
      col.grid = "grey", col.lab = par("col.lab"), cex.symbols = par("cex"),
      cex.axis = par("cex.axis"), cex.lab = 0.8 * par("cex.lab"),
@@ -267,7 +267,8 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
 ### Return Function Object
     ob <- ls() ## remove all unused objects from the result's enviroment:
     rm(list = ob[!ob %in% c("mar", "usr", "x.scal", "y.scal", "z.scal", "yx.f",
-        "yz.f", "y.add", "z.min", "z.max", "x.min", "x.max", "y.max")])
+        "yz.f", "y.add", "z.min", "z.max", "x.min", "x.max", "y.max", 
+        "x.prty", "y.prty", "z.prty")])
     rm(ob)
     invisible(list(
         xyz.convert = function(x, y=NULL, z=NULL) {

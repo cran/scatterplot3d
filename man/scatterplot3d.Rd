@@ -89,7 +89,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
 }
 \note{
   Some graphical parameters should only be set as arguments in
-  \code{scatterplot3d} but not in a previous \code{\link[base]{par}()} call.  One of these is
+  \code{scatterplot3d} but not in a previous \code{\link[graphics]{par}()} call.  One of these is
   \code{mar}, which is also non-standard in another way: Users who
   want to extend an existing \code{scatterplot3d} graphic with another function than
   \code{points3d}, \code{plane3d} or \code{box3d}, should consider to
@@ -108,7 +108,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
   \url{http://www.statistik.uni-dortmund.de/~ligges}.
 }
 \seealso{
-  \code{\link[base]{persp}}, \code{\link[base]{plot}}, \code{\link[base]{par}}.
+  \code{\link[graphics]{persp}}, \code{\link[graphics]{plot}}, \code{\link[graphics]{par}}.
 }
 \examples{
   ## On some devices not all colors can be displayed.

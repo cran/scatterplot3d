@@ -205,19 +205,19 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
 
         ## axis and labels
 
-        mytext <- function(lab, side, line, at)
+        mytext2 <- function(lab, side, line, at)
             mtext(lab, side = side, line = line, at = at, col = col.lab,
                   cex = cex.axis, font = font.axis, las = 0)
         ## X
         lines(c(x.min, x.max), c(z.min, z.min), col = col.axis, lty = lty.axis)
-        mytext(xlab, 1, line = 1.5, at = mean(x.range))
+        mytext2(xlab, 1, line = 1.5, at = mean(x.range))
         ## Y
         lines(xx[1] + c(0, y.max * yx.f), c(z.min, y.max * yz.f + z.min),
               col = col.axis, lty = lty.axis)
-        mytext(ylab, if(angle.1) 2 else 4, line= 0.5, at = z.min + y.max * yz.f)
+        mytext2(ylab, if(angle.1) 2 else 4, line= 0.5, at = z.min + y.max * yz.f)
         ## Z
         lines(xx[c(2,2)], c(z.min, z.max), col = col.axis, lty = lty.axis)
-        mytext(zlab, if(angle.1) 4 else 2, line= 1.5, at = mean(z.range))
+        mytext2(zlab, if(angle.1) 4 else 2, line= 1.5, at = mean(z.range))
         if(box) {
             if(is.null(lty.hide)) lty.hide <- lty.axis
             ## X
@@ -293,7 +293,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
         },
         plane3d = function(Intercept, x.coef = NULL, y.coef = NULL, 
             lty = "dashed", lty.box = NULL, ...){
-            if(!is.null(coef(Intercept))) Intercept <- coef(Intercept)
+            if(!is.atomic(Intercept) && !is.null(coef(Intercept))) Intercept <- coef(Intercept)
             if(is.null(lty.box)) lty.box <- lty
             if(is.null(x.coef) && length(Intercept) == 3){
                 x.coef <- Intercept[2]

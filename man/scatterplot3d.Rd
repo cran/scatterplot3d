@@ -14,8 +14,8 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
     lab.z=mean(lab[1:2]), type="p", highlight.3d=FALSE,
     mar=c(5,3,4,3)+0.1, col.axis=par("col.axis"),
     col.grid="grey", col.lab=par("col.lab"),
-    cex.symbols=par("cex"), cex.axis=par("cex.axis"),
-    cex.lab=0.8 * par("cex.lab"), font.axis=par("font.axis"),
+    cex.symbols=par("cex"), cex.axis=0.8 * par("cex.axis"),
+    cex.lab=par("cex.lab"), font.axis=par("font.axis"),
     font.lab=par("font.lab"), lty.axis=par("lty"),
     lty.grid=par("lty"), lty.hide=NULL, log="", ...)
 }
@@ -104,8 +104,8 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
   only if needed as arguments in previous \code{par()} call.
 }
 \author{
-  Uwe Ligges \email{ligges@statistik.uni-dortmund.de};
-  \url{http://www.statistik.uni-dortmund.de/~ligges}.
+  Uwe Ligges \email{ligges@statistik.tu-dortmund.de};
+  \url{http://www.statistik.tu-dortmund.de/~ligges}.
 }
 \seealso{
   \code{\link[graphics]{persp}}, \code{\link[graphics]{plot}}, \code{\link[graphics]{par}}.

@@ -36,11 +36,11 @@ Changes in 0.3-x releases of scatterplot3d:
          Suggestions by Martin Maechler (thank you!):
          - clean up a lot of code
          - Added note on unfixed bug to help file.
-	 - Added Martin's great examples 6 a/b: "color cube"
+     - Added Martin's great examples 6 a/b: "color cube"
  0.3-15: Allow for just 1 point (was 2 before) to be plotted
          Allow all points to be within a major plane
-	 Argument lty.hide introduced (for plotting of in-visible edges)
-	 plane3d() allows to plot the box-intersecting lines in a 
+     Argument lty.hide introduced (for plotting of in-visible edges)
+     plane3d() allows to plot the box-intersecting lines in a
           different line style
  0.3-16: bug fix: non-finite or NA values of y did not work.
  0.3-17: bug fix: Example 6 fixed by Martin Maechler
@@ -48,12 +48,13 @@ Changes in 0.3-x releases of scatterplot3d:
  0.3-19: CITATION file and package vignette added
  0.3-20: NAMESPACE added, translation support for warnings/erorrs added, srcltx.sty added
  0.3-21: chicago.* added
- 0.3-22: bugfix: retunred closures have to set par("usr") and par("mar") internally 
+ 0.3-22: bugfix: retunred closures have to set par("usr") and par("mar") internally
           as the former call to scatterplot3d did!
  0.3-23: bugfix: must not reset mar in scatterplot3d!
  0.3-24: par("type") does no longer exist for R >= 2.3.0
          x.prty, y.prty, z.prty are no longer removed in the s3d environment (user request)
  0.3-25: bugfix: $ depreceated ...
+ 0.3-26: CITATION in UTF-8
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

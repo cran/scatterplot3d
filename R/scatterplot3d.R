@@ -8,14 +8,14 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
      lab.z = mean(lab[1:2]), type = "p", highlight.3d = FALSE,
      mar = c(5, 3, 4, 3) + 0.1, col.axis = par("col.axis"),
      col.grid = "grey", col.lab = par("col.lab"), cex.symbols = par("cex"),
-     cex.axis = par("cex.axis"), cex.lab = 0.8 * par("cex.lab"),
+     cex.axis = 0.8 * par("cex.axis"), cex.lab = par("cex.lab"),
      font.axis = par("font.axis"), font.lab = par("font.lab"),
      lty.axis = par("lty"), lty.grid = par("lty"), lty.hide=NULL, 
      log = "", ...)
      # log not yet implemented
 {
-    ## Uwe Ligges <ligges@statistik.uni-dortmund.de>,
-    ## http://www.statistik.uni-dortmund.de/~ligges
+    ## Uwe Ligges <ligges@statistik.tu-dortmund.de>,
+    ## http://www.statistik.tu-dortmund.de/~ligges
     ##
     ## For MANY ideas and improvements thanks to Martin Maechler!!!
     ## Parts of the help files are stolen from the standard plotting functions in R.
@@ -138,7 +138,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     if(angle.2) {x1 <- x.min + yx.f * y.max; x2 <- x.max}
     else        {x1 <- x.min; x2 <- x.max + yx.f * y.max}
     plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
-    temp <- strwidth(format(rev(y.prty))[1], cex = cex.lab/par("cex"))
+    temp <- strwidth(format(rev(y.prty))[1], cex = cex.axis/par("cex"))
     if(angle.2) x1 <- x1 - temp - y.margin.add
     else        x2 <- x2 + temp + y.margin.add
     plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
@@ -180,7 +180,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
                 las <- par("las")
                 mytext <- function(labels, side, at, ...)
                     mtext(text = labels, side = side, at = at, line = -.5,
-                          col=col.lab, cex=cex.lab, font=font.lab, ...)
+                          col=col.lab, cex=cex.axis, font=font.lab, ...)
                 ## X
                 if(is.null(x.ticklabs))
                     x.ticklabs <- format(i.x * x.scal)
@@ -199,7 +199,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
                 text(i.y * yx.f + xx[1],
                      i.y * yz.f + z.min, y.ticklabs,
                      pos=if(angle.1) 2 else 4, offset=1,
-                     col=col.lab, cex=cex.lab/par("cex"), font=font.lab)
+                     col=col.lab, cex=cex.axis/par("cex"), font=font.lab)
             }
         }
 
@@ -207,7 +207,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
 
         mytext2 <- function(lab, side, line, at)
             mtext(lab, side = side, line = line, at = at, col = col.lab,
-                  cex = cex.axis, font = font.axis, las = 0)
+                  cex = cex.lab, font = font.axis, las = 0)
         ## X
         lines(c(x.min, x.max), c(z.min, z.min), col = col.axis, lty = lty.axis)
         mytext2(xlab, 1, line = 1.5, at = mean(x.range))

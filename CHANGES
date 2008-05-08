@@ -55,6 +55,7 @@ Changes in 0.3-x releases of scatterplot3d:
          x.prty, y.prty, z.prty are no longer removed in the s3d environment (user request)
  0.3-25: bugfix: $ depreceated ...
  0.3-26: CITATION in UTF-8
+ 0.3-27: CITATION in latin1 and declaration to be latin1 package
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

@@ -97,7 +97,7 @@ The (blue colored) points are plotted using {\tt type = "h"},
 so one can see the $x$--$y$ location of those points very clearly.
 
 In the next step, a linear model (assumption: volume depends on girth and height of the trees) is calculated.
-Furthermore, this \textsf{lm} object is plotted by the returned {\tt plain3d} function (was assigned to {\tt s3d} before),
+Furthermore, this \textsf{lm} object is plotted by the returned {\tt plane3d} function (was assigned to {\tt s3d} before),
 and it results in a regression plane.
 
 Just for demonstration purposes, in the last step some red colored points (on a imaginary line crossing the plot)
@@ -110,7 +110,7 @@ are plotted with an asterisk as its point symbol.
   s3d <- scatterplot3d(trees, type = "h", color = "blue",
       angle = 55, scale.y = 0.7, pch = 16, main = "Adding elements")
   my.lm <- lm(trees$Volume ~ trees$Girth + trees$Height)
-  s3d$plain3d(my.lm)
+  s3d$plane3d(my.lm)
   s3d$points3d(seq(10, 20, 2), seq(85, 60, -5), seq(60, 10, -10),
       col = "red", type = "h", pch = 8)
 \end{Verbatim}
@@ -389,7 +389,7 @@ residuals respectively.
   legend(s3d$xyz.convert(-2, 0, 16), pch = 1:4, yjust = 0,
       legend = c("upswing", "upper turning points",
           "downswing", "lower turning points"))
-  s3d$plain3d(my.lm <- lm(Y ~ L + C), lty = "dotted")
+  s3d$plane3d(my.lm <- lm(Y ~ L + C), lty = "dotted")
   par(mar=c(5, 3, 0, 3))
   plot(seq(min(IE), max(IE), length = 100), rep(0, 100), pch = 15,
       axes = FALSE, xlab = "color code of variable \"IE\"", ylab = "",
@@ -406,7 +406,7 @@ residuals respectively.
 \begin{Verbatim}[frame=single]
   s3d <- scatterplot3d(L, C, Y, pch = 20, mar = c(5, 3, 4, 3),
             main = "Residuals")
-  s3d$plain3d(my.lm, lty = "dotted")
+  s3d$plane3d(my.lm, lty = "dotted")
   orig <- s3d$xyz.convert(L, C, Y)
   plane <- s3d$xyz.convert(L, C,  fitted(my.lm))
   i.negpos <- 1 + (resid(my.lm) > 0)

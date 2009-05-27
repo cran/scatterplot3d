@@ -103,7 +103,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     dat$y <- (dat$y - y.add) / y.scal
     y.max <- (max(y.prty) - y.add) / y.scal
     if(!is.null(ylim)) y.max <- max(y.max, ceiling((ylim[2] - y.add) / y.scal))
-    if(angle > 2) dat$y <- y.max - dat$y  ## turn y-values around
+#    if(angle > 2) dat$y <- y.max - dat$y  ## turn y-values around
     ## X
     x.range <- range(dat$x[is.finite(dat$x)], xlim)
     x.prty <- pretty(x.range, n = lab[1],

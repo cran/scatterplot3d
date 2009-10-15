@@ -57,6 +57,7 @@ Changes in 0.3-x releases of scatterplot3d:
  0.3-26: CITATION in UTF-8
  0.3-27: CITATION in latin1 and declaration to be latin1 package
  0.3-28: bugfix: y sorted revserse (and hence had also wrong tick labels) for angles > 180.
+ 0.3-29: bugfix: retunred function points3d()/xyz.convert()/plane3d can deal with angle > 180
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

@@ -32,9 +32,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
     may not work as exactly as expected (a known but unfixed bug).}
  \item{xlab, ylab, zlab}{titles for the x, y and z axis.}
  \item{scale.y}{scale of y axis related to x- and z axis.}
- \item{angle}{angle between x and y axis (Attention: result depends on
-   scaling.  For 180 < angle < 360  the returned functions
-   \code{xyz.convert} and \code{points3d} will not work properly.).}
+ \item{angle}{angle between x and y axis (Attention: result depends on scaling).}
  \item{axis}{a logical value indicating whether axes should be drawn on the plot.}
  \item{tick.marks}{a logical value indicating whether tick marks should
    be drawn on the plot (only if \code{axis = TRUE}).}

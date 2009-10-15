@@ -266,19 +266,25 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     # par(mem.par) # we MUST NOT set the margins back
 ### Return Function Object
     ob <- ls() ## remove all unused objects from the result's enviroment:
-    rm(list = ob[!ob %in% c("mar", "usr", "x.scal", "y.scal", "z.scal", "yx.f",
+    rm(list = ob[!ob %in% c("angle", "mar", "usr", "x.scal", "y.scal", "z.scal", "yx.f",
         "yz.f", "y.add", "z.min", "z.max", "x.min", "x.max", "y.max", 
         "x.prty", "y.prty", "z.prty")])
     rm(ob)
     invisible(list(
         xyz.convert = function(x, y=NULL, z=NULL) {
             xyz <- xyz.coords(x, y, z)
+            if(angle > 2) { ## switch y and x axis to ensure righthand oriented coord.
+                temp <- xyz$x; xyz$x <- xyz$y; xyz$y <- temp
+            }
             y <- (xyz$y - y.add) / y.scal
             return(list(x = xyz$x / x.scal + yx.f * y,
                 y = xyz$z / z.scal + yz.f * y))
         },
         points3d = function(x, y = NULL, z = NULL, type = "p", ...) {
             xyz <- xyz.coords(x, y, z)
+            if(angle > 2) { ## switch y and x axis to ensure righthand oriented coord.
+                temp <- xyz$x; xyz$x <- xyz$y; xyz$y <- temp
+            }
             y2 <- (xyz$y - y.add) / y.scal
             x <- xyz$x / x.scal + yx.f * y2
             y <- xyz$z / z.scal + yz.f * y2
@@ -296,8 +302,8 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             if(!is.atomic(Intercept) && !is.null(coef(Intercept))) Intercept <- coef(Intercept)
             if(is.null(lty.box)) lty.box <- lty
             if(is.null(x.coef) && length(Intercept) == 3){
-                x.coef <- Intercept[2]
-                y.coef <- Intercept[3]
+                x.coef <- Intercept[if(angle > 2) 3 else 2]
+                y.coef <- Intercept[if(angle > 2) 2 else 3]
                 Intercept <- Intercept[1]
             }
             mem.par <- par(mar = mar, usr = usr)

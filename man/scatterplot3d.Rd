@@ -17,7 +17,8 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
     cex.symbols=par("cex"), cex.axis=0.8 * par("cex.axis"),
     cex.lab=par("cex.lab"), font.axis=par("font.axis"),
     font.lab=par("font.lab"), lty.axis=par("lty"),
-    lty.grid=par("lty"), lty.hide=NULL, log="", ...)
+    lty.grid=par("lty"), lty.hide=NULL, lty.hplot=par("lty"),
+    log="", ...)
 }
 \arguments{
  \item{x}{the coordinates of points in the plot.}
@@ -60,6 +61,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
  \item{font.axis, font.lab}{the font to be used for axis annotation / labels.}
  \item{lty.axis, lty.grid}{the line type to be used for axis / grid.}
  \item{lty.hide}{line style used to plot \sQuote{non-visible} edges (defaults of the \code{lty.axis} style)}
+ \item{lty.hplot}{the line type to be used for vertical segments with \code{type = "h"}.}
  \item{log}{Not yet implemented!  A character string which contains "x"
    (if the x axis is to be logarithmic), "y", "z", "xy", "xz", "yz", "xyz".}
  \item{\dots}{more graphical parameters can be given as arguments,

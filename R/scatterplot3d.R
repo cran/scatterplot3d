@@ -11,7 +11,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
      cex.axis = 0.8 * par("cex.axis"), cex.lab = par("cex.lab"),
      font.axis = par("font.axis"), font.lab = par("font.lab"),
      lty.axis = par("lty"), lty.grid = par("lty"), lty.hide=NULL, 
-     log = "", ...)
+     lty.hplot = par("lty"), log = "", ...)
      # log not yet implemented
 {
     ## Uwe Ligges <ligges@statistik.tu-dortmund.de>,
@@ -248,7 +248,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     col <- as.character(dat$col)
     if(type == "h") {
         z2 <- dat$y * yz.f + z.min
-        segments(x, z, x, z2, col = col, cex = cex.symbols, ...)
+        segments(x, z, x, z2, col = col, cex = cex.symbols, lty = lty.hplot, ...)
         points(x, z, type = "p", col = col, pch = pch, cex = cex.symbols, ...)
     }
     else points(x, z, type = type, col = col, pch = pch, cex = cex.symbols, ...)

@@ -59,6 +59,8 @@ Changes in 0.3-x releases of scatterplot3d:
  0.3-28: bugfix: y sorted revserse (and hence had also wrong tick labels) for angles > 180.
  0.3-29: bugfix: retunred function points3d()/xyz.convert()/plane3d can deal with angle > 180
  0.3-30: added argument lty.hplot for controllling horizontal line style, by Jari Oksanen
+ 0.3-31: fix cex.symbols reordering bug
+
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

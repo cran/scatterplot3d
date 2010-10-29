@@ -86,6 +86,10 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             if(length(pch) != length(y.ord))
                 stop("length(pch) ", "must be equal length(x) or 1")
             else pch <- pch[y.ord]
+        if(length(cex.symbols) > 1)
+            if(length(cex.symbols) != length(y.ord))
+                stop("length(cex.symbols) ", "must be equal length(x) or 1")
+            else cex.symbols <- cex.symbols[y.ord]
         daty <- dat$y
         daty[!is.finite(daty)] <- mean(daty[is.finite(daty)])
         if(highlight.3d && !(all(diff(daty) == 0)))

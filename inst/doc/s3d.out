@@ -1,0 +1,23 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}
+\BOOKMARK [1][-]{section.2}{Design}{}
+\BOOKMARK [2][-]{subsection.2.1}{Arguments}{section.2}
+\BOOKMARK [2][-]{subsection.2.2}{xyz.coords\(\)}{section.2}
+\BOOKMARK [2][-]{subsection.2.3}{Structure}{section.2}
+\BOOKMARK [1][-]{section.3}{Extensibility}{}
+\BOOKMARK [2][-]{subsection.3.1}{Extensibility of R graphics}{section.3}
+\BOOKMARK [2][-]{subsection.3.2}{Extensibility of scatterplot3d}{section.3}
+\BOOKMARK [1][-]{section.4}{Examples}{}
+\BOOKMARK [2][-]{subsection.4.1}{Feature demonstration}{section.4}
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Helix}{subsection.4.1}
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Hemisphere}{subsection.4.1}
+\BOOKMARK [3][-]{subsubsection.4.1.3}{3D barplot}{subsection.4.1}
+\BOOKMARK [3][-]{subsubsection.4.1.4}{Adding elements}{subsection.4.1}
+\BOOKMARK [3][-]{subsubsection.4.1.5}{Bivariate normal distribution}{subsection.4.1}
+\BOOKMARK [3][-]{subsubsection.4.1.6}{RGB color cube}{subsection.4.1}
+\BOOKMARK [2][-]{subsection.4.2}{Real world examples}{section.4}
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Meta\205analysis of controlled clinical trials}{subsection.4.2}
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Business cycle data}{subsection.4.2}
+\BOOKMARK [3][-]{subsubsection.4.2.3}{Deep hole drilling}{subsection.4.2}
+\BOOKMARK [1][-]{section.5}{Other 3D tools in R}{}
+\BOOKMARK [1][-]{section.6}{Conclusion}{}
+\BOOKMARK [2][-]{section*.2}{scatterplot3d}{section.6}

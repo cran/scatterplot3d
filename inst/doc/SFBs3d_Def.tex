@@ -1,8 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
 \documentclass[12pt,titlepage,oneside,a4paper]{article}
-%\documentclass[12pt,titlepage,oneside,fleqn]{article}
-\usepackage[ansi]{umlaute}
-%\usepackage{german}
 \usepackage{verbatim}
 \usepackage{fancyvrb}
 \usepackage{array}
@@ -13,7 +10,7 @@
 \usepackage[final]{graphicx}
 \usepackage{float}
 \usepackage{color}
-\usepackage{Rd}%-> {url} and many more!
+\usepackage{Rd}
 \usepackage{chicago}
 \usepackage{hyperref}
   \definecolor{Blue}{rgb}{0,0,0.8}
@@ -32,38 +29,34 @@
     pdfview={XYZ null null null}
     }
 
-
-%% Definition der Seitengrößen, Abstände, etc. ================================
-\setlength{\paperwidth}{21cm} % A4 Größe setzen
+\setlength{\paperwidth}{21cm}
 \setlength{\paperheight}{29.7cm}
-\setlength{\oddsidemargin}{0.46cm} % Seitenrand links: ca. 3 cm
-\setlength{\topmargin}{-0.5cm} % Seitenrand oben ca. 3 cm
+\setlength{\oddsidemargin}{0.46cm}
+\setlength{\topmargin}{-0.5cm}
 \setlength{\headheight}{1cm}
 \setlength{\headsep}{0cm}
-\setlength{\footskip}{2cm} % Fuß vernünftig
-\setlength{\textwidth}{15cm} % Textbreite, so daß Seitenrand rechts ca. 3 cm
-\setlength{\textheight}{22cm} % Texthöhe vernünftig
+\setlength{\footskip}{2cm}
+\setlength{\textwidth}{15cm}
+\setlength{\textheight}{22cm}
 
 \setlength{\tabcolsep}{3mm}
 \setlength{\doublerulesep}{0.2mm}
-\parindent = 0em                     % Absatzeinrückung
-\parskip = 2ex plus0.3ex minus0.3ex  % Absatzabstand
-\renewcommand{\baselinestretch}{1.3} % Zeilenabstand
-\sloppy % möglichst wenig Trennen !
-\raggedbottom % möglichst schöne Seitenumbrüche
+\parindent = 0em
+\parskip = 2ex plus0.3ex minus0.3ex
+\renewcommand{\baselinestretch}{1.3}
+\sloppy
+\raggedbottom
 
 \setlength{\partopsep}{0mm} \setlength\topsep{0mm} \setlength\parsep{0mm}
-%-------------------------------------------------------------
 
 \renewcommand{\cite}[1]{\shortciteANP{#1}, \citeyearNP{#1}}
 \renewcommand{\citeN}[1]{\shortciteN{#1}}
 
-% Mathematikeinstellungen  ==================================================
 \newcommand{\bmath}{\begin{eqnarray}}
 \newcommand{\emath}{\end{eqnarray}}
 \newcommand{\bmathn}{\begin{eqnarray*}}
 \newcommand{\emathn}{\end{eqnarray*}}
-\newcommand{\RR}{{\normalfont\textsf{R}}{}}%\newcommand{\RR}{{\bf R}}
+\newcommand{\RR}{{\normalfont\textsf{R}}{}}
 \newcommand{\sdd}{\emph{scatterplot3d}}
 
 \newcommand{\D}{\displaystyle}

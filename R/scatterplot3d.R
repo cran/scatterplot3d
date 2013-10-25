@@ -1,12 +1,12 @@
 scatterplot3d <- 
-function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
+function(x, y = NULL, z = NULL, color = par("col"), pch = NULL, 
      main = NULL, sub = NULL, xlim = NULL, ylim = NULL, zlim = NULL,
      xlab = NULL, ylab = NULL, zlab = NULL, scale.y = 1, angle = 40,
      axis = TRUE, tick.marks = TRUE, label.tick.marks = TRUE,
      x.ticklabs = NULL, y.ticklabs = NULL, z.ticklabs = NULL,
      y.margin.add = 0, grid = TRUE, box = TRUE, lab = par("lab"),
      lab.z = mean(lab[1:2]), type = "p", highlight.3d = FALSE,
-     mar = c(5, 3, 4, 3) + 0.1, col.axis = par("col.axis"),
+     mar = c(5, 3, 4, 3) + 0.1, bg = par("bg"), col.axis = par("col.axis"),
      col.grid = "grey", col.lab = par("col.lab"), cex.symbols = par("cex"),
      cex.axis = 0.8 * par("cex.axis"), cex.lab = par("cex.lab"),
      font.axis = par("font.axis"), font.lab = par("font.lab"),
@@ -86,6 +86,10 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
             if(length(pch) != length(y.ord))
                 stop("length(pch) ", "must be equal length(x) or 1")
             else pch <- pch[y.ord]
+        if(length(bg) > 1)
+            if(length(bg) != length(y.ord))
+                stop("length(bg) ", "must be equal length(x) or 1")
+            else bg <- bg[y.ord]        
         if(length(cex.symbols) > 1)
             if(length(cex.symbols) != length(y.ord))
                 stop("length(cex.symbols) ", "must be equal length(x) or 1")
@@ -93,7 +97,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
         daty <- dat$y
         daty[!is.finite(daty)] <- mean(daty[is.finite(daty)])
         if(highlight.3d && !(all(diff(daty) == 0)))
-            dat$col <- rgb(seq(0, 1, length = n) * (y.range[2] - daty) / diff(y.range), g=0, b=0)
+            dat$col <- rgb(red=seq(0, 1, length = n) * (y.range[2] - daty) / diff(y.range), green=0, blue=0)
     }
 
 ### optim. axis scaling
@@ -253,9 +257,9 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     if(type == "h") {
         z2 <- dat$y * yz.f + z.min
         segments(x, z, x, z2, col = col, cex = cex.symbols, lty = lty.hplot, ...)
-        points(x, z, type = "p", col = col, pch = pch, cex = cex.symbols, ...)
+        points(x, z, type = "p", col = col, pch = pch, bg = bg, cex = cex.symbols, ...)
     }
-    else points(x, z, type = type, col = col, pch = pch, cex = cex.symbols, ...)
+    else points(x, z, type = type, col = col, pch = pch, bg = bg, cex = cex.symbols, ...)
 
 ### box-lines in front of points (overlay)
     if(axis && box) {

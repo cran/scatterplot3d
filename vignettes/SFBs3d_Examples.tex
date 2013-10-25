@@ -142,7 +142,7 @@ annotation.
 \clearpage
 \small
 \begin{Verbatim}[frame=single]
-  library(mvtnorm)
+  library("mvtnorm")
   x1 <- x2 <- seq(-10, 10, length = 51)
   dens <- matrix(dmvnorm(expand.grid(x1, x2),
                     sigma = rbind(c(3, 2), c(2, 3))),
@@ -155,15 +155,15 @@ annotation.
                     main = "Bivariate normal distribution")
   text(s3d$xyz.convert(-1, 10, 0.07),
         labels = expression(f(x) == frac(1, sqrt((2 * pi)^n *
-            phantom(".") * det(Sigma[X]))) * phantom(".") * exp{
+            phantom(".") * det(Sigma[X]))) * phantom(".") * exp * {
             bgroup("(", - scriptstyle(frac(1, 2) * phantom(".")) *
                 (x - mu)^T * Sigma[X]^-1 * (x - mu), ")")}))
   text(s3d$xyz.convert(1.5, 10, 0.05),
         labels = expression("with" * phantom("m") *
             mu == bgroup("(", atop(0, 0), ")") * phantom(".") * "," *
                 phantom(0) *
-            Sigma[X] ==  bgroup("(", atop(3 * phantom(0) * 2,
-                2 * phantom(0) * 3), ")")))
+            {Sigma[X] ==  bgroup("(", atop(3 * phantom(0) * 2,
+                2 * phantom(0) * 3), ")")}))
   for(i in length(x1):1)
       s3d$points3d(rep(x1[i], length(x2)), x2, dens[i,], type = "l")
   for(i in length(x2):1)

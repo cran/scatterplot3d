@@ -12,8 +12,8 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
     x.ticklabs=NULL, y.ticklabs=NULL, z.ticklabs=NULL,
     y.margin.add=0, grid=TRUE, box=TRUE, lab=par("lab"),
     lab.z=mean(lab[1:2]), type="p", highlight.3d=FALSE,
-    mar=c(5,3,4,3)+0.1, col.axis=par("col.axis"),
-    col.grid="grey", col.lab=par("col.lab"),
+    mar=c(5,3,4,3)+0.1, bg=par("bg"), col.axis=par("col.axis"),
+    col.grid="grey", col.lab=par("col.lab"), 
     cex.symbols=par("cex"), cex.axis=0.8 * par("cex.axis"),
     cex.lab=par("cex.lab"), font.axis=par("font.axis"),
     font.lab=par("font.lab"), lty.axis=par("lty"),
@@ -55,6 +55,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
    postscript device or use \code{highlight.3d = FALSE}.}
  \item{mar}{A numerical vector of the form c(bottom, left, top, right)
    which gives the lines of margin to be specified on the four sides of the plot.}
+ \item{bg}{background (fill) color for the open plot symbols given by pch = 21:25.}
  \item{col.axis, col.grid, col.lab}{the color to be used for axis / grid / axis labels.}
  \item{cex.symbols, cex.axis, cex.lab}{the magnification to be used for
    point symbols, axis annotation, labels relative to the current.}
@@ -79,7 +80,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
     elements or an (g)lm object can be specified.
     The argument \code{lty.box} allows to set a different line style for the 
     intersecting lines in the box's walls.}
-  \item{box3d}{function which "refreshes" the box surrounding the plot.}
+  \item{box3d}{function which \dQuote{refreshes} the box surrounding the plot.}
 }
 \references{
  Ligges, U., and Maechler, M. (2003): 

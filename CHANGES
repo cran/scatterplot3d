@@ -63,6 +63,8 @@ Changes in 0.3-x releases of scatterplot3d:
  0.3-32: some qpdf compression in ./inst/doc
  0.3-34: argument bg was not re-odered with the points (reported by Travers Ching)
          using proper vignettes directory
-
+ 0.3-35: arguments pch and bg caused failures when axes got restricted.
+	(reported by Hans-Joachim Pitz)
+	 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

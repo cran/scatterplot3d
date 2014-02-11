@@ -5,7 +5,7 @@
   Plots a three dimensional (3D) point cloud.
 }
 \usage{
-scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=NULL,
+scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
     main=NULL, sub=NULL, xlim=NULL, ylim=NULL, zlim=NULL,
     xlab=NULL, ylab=NULL, zlab=NULL, scale.y=1, angle=40,
     axis=TRUE, tick.marks=TRUE, label.tick.marks=TRUE,

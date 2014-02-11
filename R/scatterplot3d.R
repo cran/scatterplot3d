@@ -1,5 +1,5 @@
 scatterplot3d <- 
-function(x, y = NULL, z = NULL, color = par("col"), pch = NULL, 
+function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"), 
      main = NULL, sub = NULL, xlim = NULL, ylim = NULL, zlim = NULL,
      xlab = NULL, ylab = NULL, zlab = NULL, scale.y = 1, angle = 40,
      axis = TRUE, tick.marks = TRUE, label.tick.marks = TRUE,
@@ -48,6 +48,17 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     else if(length(color) != length(xyz$x))
         stop("length(color) ", "must be equal length(x) or 1")
 
+    if(length(pch) == 1)
+        pch <- rep(pch, length(xyz$x))
+    else if(length(pch) != length(xyz$x))
+        stop("length(pch) ", "must be equal length(x) or 1")
+
+    if(length(bg) == 1)
+        bg <- rep(bg, length(xyz$x))
+    else if(length(bg) != length(xyz$x))
+        stop("length(bg) ", "must be equal length(x) or 1")
+
+
     angle <- (angle %% 360) / 90
     yz.f <- scale.y * abs(if(angle < 1) angle else if(angle > 3) angle - 4 else 2 - angle)
     yx.f <- scale.y * (if(angle < 2) 1 - angle else angle - 3)
@@ -58,8 +69,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     }
     angle.1 <- (1 < angle && angle < 2) || angle > 3
     angle.2 <- 1 <= angle && angle <= 3
-    dat <- cbind(as.data.frame(xyz[c("x","y","z")]), col = color)
-
+    dat <- data.frame(xyz[c("x","y","z")], col = color, pch = pch, bg = bg, stringsAsFactors = FALSE)
     ## xlim, ylim, zlim -- select the points inside the limits
     if(!is.null(xlim)) {
         xlim <- range(xlim)
@@ -82,14 +92,6 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     if(type == "p" || type == "h") {
         y.ord <- rev(order(dat$y))
         dat <- dat[y.ord, ]
-        if(length(pch) > 1)
-            if(length(pch) != length(y.ord))
-                stop("length(pch) ", "must be equal length(x) or 1")
-            else pch <- pch[y.ord]
-        if(length(bg) > 1)
-            if(length(bg) != length(y.ord))
-                stop("length(bg) ", "must be equal length(x) or 1")
-            else bg <- bg[y.ord]        
         if(length(cex.symbols) > 1)
             if(length(cex.symbols) != length(y.ord))
                 stop("length(cex.symbols) ", "must be equal length(x) or 1")
@@ -257,9 +259,9 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = NULL,
     if(type == "h") {
         z2 <- dat$y * yz.f + z.min
         segments(x, z, x, z2, col = col, cex = cex.symbols, lty = lty.hplot, ...)
-        points(x, z, type = "p", col = col, pch = pch, bg = bg, cex = cex.symbols, ...)
+        points(x, z, type = "p", col = col, pch = dat$pch, bg = dat$bg, cex = cex.symbols, ...)
     }
-    else points(x, z, type = type, col = col, pch = pch, bg = bg, cex = cex.symbols, ...)
+    else points(x, z, type = type, col = col, pch = dat$pch, bg = dat$bg, cex = cex.symbols, ...)
 
 ### box-lines in front of points (overlay)
     if(axis && box) {

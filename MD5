@@ -1,14 +1,14 @@
-e9ccd3d4d5af7e03e4ecc4d6f546cb4a *CHANGES
-c7b266d6a97a238d8333c9f0b3dab3da *DESCRIPTION
+9b3e340afcebcb0888d9b51c8127411e *CHANGES
+aa36299f5db54ee279cdbb3c372d2272 *DESCRIPTION
 2e76b2e09a331eec98128cc581ac5e22 *NAMESPACE
-a138f0036338cf6b7413920349b2c160 *R/scatterplot3d.R
-fd4892b0fd0ac57885cff4e08fed577a *build/vignette.rds
+b00afe1c44acc6ca0c23cd88591dfee9 *R/scatterplot3d.R
+ad2dea98b109f17e8866fa7d22db4d5b *build/vignette.rds
 75f154fc6802f86cefa004239b048243 *inst/CITATION
 4227d2d500d52cdd18b7af5407621be0 *inst/doc/s3d.Rnw
-da1ed9b064730135f0d0e55ae6775dec *inst/doc/s3d.pdf
+a358861ae36199dfa4fbe0732ab35480 *inst/doc/s3d.pdf
 50051f0feb902cf69820d01c45373e07 *inst/po/de/LC_MESSAGES/R-scatterplot3d.mo
 3dd8ff033a10120127977c076dd14724 *inst/po/en/LC_MESSAGES/R-scatterplot3d.mo
-e91aa15df642cdd82ff1c12121d60761 *man/scatterplot3d.Rd
+0e981a49cfc54485f6424ddffd131c25 *man/scatterplot3d.Rd
 49d9f35530b6522fd2ebba10ecbc5acc *po/R-de.po
 a5bb89e45f7c077da641d8a06be0cf23 *po/R-en.po
 60dc41149dec36e2c11909c3ade903b4 *po/R-scatterplot3d.pot
@@ -36,4 +36,3 @@ ba24052edb4633a63edebaa51e171a3e *vignettes/ligges.bib
 ff7260fb90a1e4fc44f734bef469342d *vignettes/residuals.pdf
 4227d2d500d52cdd18b7af5407621be0 *vignettes/s3d.Rnw
 a2c673a2d9239495c7a1418aa142f706 *vignettes/scatterplot3d-help.tex
-7bddb2b97d108b8a96855fe59a21dd51 *vignettes/srcltx.sty

@@ -1,1 +1,4 @@
+importFrom("grDevices", "rgb", "xyz.coords")
+importFrom("graphics", "lines", "mtext", "par", "plot.new", "plot.window", "points", "segments", "strwidth", "text", "title")
+importFrom("stats", "coef")
 export(scatterplot3d)

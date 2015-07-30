@@ -65,6 +65,7 @@ Changes in 0.3-x releases of scatterplot3d:
          using proper vignettes directory
  0.3-35: arguments pch and bg caused failures when axes got restricted.
 	(reported by Hans-Joachim Pitz)
-	 
+ 0.3-36: import from base packages
+
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

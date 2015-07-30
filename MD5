@@ -1,11 +1,11 @@
-9b3e340afcebcb0888d9b51c8127411e *CHANGES
-aa36299f5db54ee279cdbb3c372d2272 *DESCRIPTION
-2e76b2e09a331eec98128cc581ac5e22 *NAMESPACE
+fbd5e19f9d830888b203d206eea79941 *CHANGES
+cfcdad8f3da80b4058740e276ea64bc8 *DESCRIPTION
+3f23d861171f47729de45b704fb0cb49 *NAMESPACE
 b00afe1c44acc6ca0c23cd88591dfee9 *R/scatterplot3d.R
-ad2dea98b109f17e8866fa7d22db4d5b *build/vignette.rds
+d951632c4dee0e0e0ff26ad03e8964fa *build/vignette.rds
 75f154fc6802f86cefa004239b048243 *inst/CITATION
 4227d2d500d52cdd18b7af5407621be0 *inst/doc/s3d.Rnw
-a358861ae36199dfa4fbe0732ab35480 *inst/doc/s3d.pdf
+f0ca3eae0588111c9cd3e655b68a3712 *inst/doc/s3d.pdf
 50051f0feb902cf69820d01c45373e07 *inst/po/de/LC_MESSAGES/R-scatterplot3d.mo
 3dd8ff033a10120127977c076dd14724 *inst/po/en/LC_MESSAGES/R-scatterplot3d.mo
 0e981a49cfc54485f6424ddffd131c25 *man/scatterplot3d.Rd

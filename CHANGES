@@ -66,6 +66,7 @@ Changes in 0.3-x releases of scatterplot3d:
  0.3-35: arguments pch and bg caused failures when axes got restricted.
 	(reported by Hans-Joachim Pitz)
  0.3-36: import from base packages
+ 0.3-37: allow for solid (colored) 3d planes
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

@@ -75,11 +75,15 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
   \item{points3d}{function which draws points or lines into the existing plot.}
   \item{plane3d}{function which draws a plane into the existing plot:
     \code{plane3d(Intercept, x.coef = NULL, y.coef = NULL, lty =
-      "dashed", lty.box = NULL, ...)}. 
+      "dashed", lty.box = NULL, draw_lines = TRUE, draw_polygon = FALSE, 
+      polygon_args = list(border = NA, col = rgb(0,0,0,0.2)), ...)}.
     Instead of \code{Intercept} a vector containing 3
     elements or an (g)lm object can be specified.
     The argument \code{lty.box} allows to set a different line style for the 
-    intersecting lines in the box's walls.}
+    intersecting lines in the box's walls. The arguments \code{draw_lines} and \code{draw_polygon}
+    allow for choosing whether to represent the plane via line segments or as a solid surface, respectively.
+    The list in \code{polygon_args} collects arguments to be passed to the underlying 
+    \code{\link[graphics]{polygon}} call that draws a solid (or transparent) plane if \code{draw_polygon=TRUE}.}
   \item{box3d}{function which \dQuote{refreshes} the box surrounding the plot.}
 }
 \references{

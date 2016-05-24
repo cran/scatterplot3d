@@ -308,7 +308,9 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
             else points(x, y, type = type, ...)
         },
         plane3d = function(Intercept, x.coef = NULL, y.coef = NULL, 
-            lty = "dashed", lty.box = NULL, ...){
+            lty = "dashed", lty.box = NULL, draw_lines = TRUE, draw_polygon = FALSE,
+            polygon_args = list(border = NA, col = rgb(0,0,0,0.2)), 
+            ...){
             if(!is.atomic(Intercept) && !is.null(coef(Intercept))) Intercept <- coef(Intercept)
             if(is.null(lty.box)) lty.box <- lty
             if(is.null(x.coef) && length(Intercept) == 3){
@@ -319,19 +321,29 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
             mem.par <- par(mar = mar, usr = usr)
             on.exit(par(mem.par))
             x <- x.min:x.max
+            y <- 0:y.max
+            
             ltya <- c(lty.box, rep(lty, length(x)-2), lty.box)
             x.coef <- x.coef * x.scal
             z1 <- (Intercept + x * x.coef + y.add * y.coef) / z.scal
             z2 <- (Intercept + x * x.coef +
                 (y.max * y.scal + y.add) * y.coef) / z.scal
-            segments(x, z1, x + y.max * yx.f, z2 + yz.f * y.max, lty = ltya, ...)
-            y <- 0:y.max
+
+            if(draw_polygon) 
+                do.call("polygon", c(list(
+                    c(x.min, x.min + y.max * yx.f, x.max + y.max * yx.f, x.max),
+                    c(z1[1], z2[1] + yz.f * y.max, z2[length(z2)] + yz.f * y.max, z1[length(z1)])), 
+                  polygon_args))
+            if(draw_lines) 
+                segments(x, z1, x + y.max * yx.f, z2 + yz.f * y.max, lty = ltya, ...)
+
             ltya <- c(lty.box, rep(lty, length(y)-2), lty.box)
             y.coef <- (y * y.scal + y.add) * y.coef
             z1 <- (Intercept + x.min * x.coef + y.coef) / z.scal
             z2 <- (Intercept + x.max * x.coef + y.coef) / z.scal
-            segments(x.min + y * yx.f, z1 + y * yz.f,
-                x.max + y * yx.f, z2 + y * yz.f, lty = ltya, ...)
+            if(draw_lines) 
+                segments(x.min + y * yx.f, z1 + y * yz.f,
+                  x.max + y * yx.f, z2 + y * yz.f, lty = ltya, ...)
         },
         box3d = function(...){
             mem.par <- par(mar = mar, usr = usr)

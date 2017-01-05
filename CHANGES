@@ -67,6 +67,7 @@ Changes in 0.3-x releases of scatterplot3d:
 	(reported by Hans-Joachim Pitz)
  0.3-36: import from base packages
  0.3-37: allow for solid (colored) 3d planes
+ 0.3-38: Fix Omegahat URL in the vignette, allow to visualize lm objects without intercept by s3d$plane3d()
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

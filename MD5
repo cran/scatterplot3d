@@ -1,11 +1,11 @@
-45e9b034511467fe1cae2489f5f3993c *CHANGES
-4aa11c316317499ce4bd39874cd44d32 *DESCRIPTION
+d7fdc39a0a554b46f2c80b989b129f9a *CHANGES
+6f91d99e13747c6126fc0073362b4d62 *DESCRIPTION
 f0be121a6dd3fba1bab32eded326a5eb *NAMESPACE
-1151f5d5be7ecebe65866992cb996d2d *R/scatterplot3d.R
+d3e1a06e349bc00a102c14c82ed20e09 *R/scatterplot3d.R
 96c296102f1d75798741c744ed272921 *build/vignette.rds
 75f154fc6802f86cefa004239b048243 *inst/CITATION
 4227d2d500d52cdd18b7af5407621be0 *inst/doc/s3d.Rnw
-223d7de2f122254345b81777cc05818d *inst/doc/s3d.pdf
+50f5a5659e6af097d50b796239c1d419 *inst/doc/s3d.pdf
 50051f0feb902cf69820d01c45373e07 *inst/po/de/LC_MESSAGES/R-scatterplot3d.mo
 3dd8ff033a10120127977c076dd14724 *inst/po/en/LC_MESSAGES/R-scatterplot3d.mo
 cc2b2a15cd28221fb2239af3f04ddebd *man/scatterplot3d.Rd
@@ -18,7 +18,7 @@ b854e32e514713ba873887ef210a8be5 *vignettes/SFBs3d_Design.tex
 8d79f7e190ecf7cd9a5cfb78520647dd *vignettes/SFBs3d_Examples.tex
 a29bb41cfe461e3b5afd84415ed01293 *vignettes/SFBs3d_Extend.tex
 57926a175b0791c3efb6b5b604f53b04 *vignettes/SFBs3d_Intro.tex
-3a642d2c5a65f25bf3b54809c66ab914 *vignettes/SFBs3d_Related.tex
+b1ec0a59575eb48f58cf42041680042b *vignettes/SFBs3d_Related.tex
 748bbde433d9767b7b0ed41356671f52 *vignettes/barplot.pdf
 fc86c9f5ecaaabab42a9f988da447d9b *vignettes/binorm.pdf
 9a1a7021d6a618cc499c174526b65f88 *vignettes/business.pdf

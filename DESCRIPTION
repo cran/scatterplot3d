@@ -1,6 +1,6 @@
 Package: scatterplot3d
-Version: 0.3-37
-Date: 2016-05-24
+Version: 0.3-38
+Date: 2017-01-05
 Title: 3D Scatter Plot
 Author: Uwe Ligges <ligges@statistik.tu-dortmund.de>, Martin Maechler, Sarah Schnackenberg
 Maintainer: Uwe Ligges <ligges@statistik.tu-dortmund.de>
@@ -10,6 +10,6 @@ License: GPL-2
 Encoding: latin1
 Imports: grDevices, graphics, stats
 NeedsCompilation: no
-Packaged: 2016-05-24 11:03:33 UTC; ligges
+Packaged: 2017-01-05 16:11:38 UTC; ligges
 Repository: CRAN
-Date/Publication: 2016-05-24 13:06:14
+Date/Publication: 2017-01-05 19:03:19

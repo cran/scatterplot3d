@@ -311,7 +311,11 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
             lty = "dashed", lty.box = NULL, draw_lines = TRUE, draw_polygon = FALSE,
             polygon_args = list(border = NA, col = rgb(0,0,0,0.2)), 
             ...){
-            if(!is.atomic(Intercept) && !is.null(coef(Intercept))) Intercept <- coef(Intercept)
+            if(!is.atomic(Intercept) && !is.null(coef(Intercept))){
+                Intercept <- coef(Intercept)
+                if(!("(Intercept)" %in% names(Intercept)))
+                    Intercept <- c(0, Intercept)
+            }
             if(is.null(lty.box)) lty.box <- lty
             if(is.null(x.coef) && length(Intercept) == 3){
                 x.coef <- Intercept[if(angle > 2) 3 else 2]

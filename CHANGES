@@ -68,6 +68,9 @@ Changes in 0.3-x releases of scatterplot3d:
  0.3-36: import from base packages
  0.3-37: allow for solid (colored) 3d planes
  0.3-38: Fix Omegahat URL in the vignette, allow to visualize lm objects without intercept by s3d$plane3d()
+ 0.3-39: New asp argument (thanks for suggestions to Jari Oksanen)
+		 reset mar setting on.exit()
+		 bugfix for angle=90, angle=180
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

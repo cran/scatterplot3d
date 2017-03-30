@@ -1,5 +1,5 @@
-scatterplot3d <- 
-function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"), 
+scatterplot3d <-
+function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
      main = NULL, sub = NULL, xlim = NULL, ylim = NULL, zlim = NULL,
      xlab = NULL, ylab = NULL, zlab = NULL, scale.y = 1, angle = 40,
      axis = TRUE, tick.marks = TRUE, label.tick.marks = TRUE,
@@ -10,8 +10,8 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
      col.grid = "grey", col.lab = par("col.lab"), cex.symbols = par("cex"),
      cex.axis = 0.8 * par("cex.axis"), cex.lab = par("cex.lab"),
      font.axis = par("font.axis"), font.lab = par("font.lab"),
-     lty.axis = par("lty"), lty.grid = par("lty"), lty.hide=NULL, 
-     lty.hplot = par("lty"), log = "", ...)
+     lty.axis = par("lty"), lty.grid = par("lty"), lty.hide=NULL,
+     lty.hplot = par("lty"), log = "", asp = NA, ...)
      # log not yet implemented
 {
     ## Uwe Ligges <ligges@statistik.tu-dortmund.de>,
@@ -21,6 +21,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
     ## Parts of the help files are stolen from the standard plotting functions in R.
 
     mem.par <- par(mar = mar)
+    on.exit(par(mem.par))
     x.scal <- y.scal <- z.scal <- 1
     xlabel <- if (!missing(x)) deparse(substitute(x))
     ylabel <- if (!missing(y)) deparse(substitute(y))
@@ -67,8 +68,8 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
         temp <- xlab;  xlab <- ylab;   ylab <- temp
         temp <- xlim;  xlim <- ylim;   ylim <- temp
     }
-    angle.1 <- (1 < angle && angle < 2) || angle > 3
-    angle.2 <- 1 <= angle && angle <= 3
+    angle.1 <- (1 < angle && angle <= 2) || angle > 3
+    angle.2 <- 1 < angle && angle <= 3
     dat <- data.frame(xyz[c("x","y","z")], col = color, pch = pch, bg = bg, stringsAsFactors = FALSE)
     ## xlim, ylim, zlim -- select the points inside the limits
     if(!is.null(xlim)) {
@@ -144,14 +145,29 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
     z.range <- range(z.min, z.max)
 
 ### init graphics
+
+### convert asp for plot (based on suggestions from Jari Oksanen)
+    if(!is.na(asp)) {
+        x.i <- x.min:x.max
+        z.i <- z.min:z.max
+        range.x <- abs(diff(range(x.i * x.scal)))
+        range.z <- abs(diff(range(z.i * z.scal)))
+        asp <- asp * (range.z / (length(z.i) - 1)) / (range.x / (length(x.i) - 1))
+    }
     plot.new()
     if(angle.2) {x1 <- x.min + yx.f * y.max; x2 <- x.max}
     else        {x1 <- x.min; x2 <- x.max + yx.f * y.max}
-    plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
+    plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max), asp = asp)
     temp <- strwidth(format(rev(y.prty))[1], cex = cex.axis/par("cex"))
+
+### lheight in usr units for numeric aspect is needed to locate
+### side 2 and 4 axis annotation with fixes aspect.
+    lheight <- (strheight("\n") - strheight("M")) * asp
+    lheight2 <- (strheight("\n") - strheight("M"))
+
     if(angle.2) x1 <- x1 - temp - y.margin.add
     else        x2 <- x2 + temp + y.margin.add
-    plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max))
+    plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max), asp = asp)
     if(angle > 2) par("usr" = par("usr")[c(2, 1, 3:4)])
     usr <- par("usr") # we have to remind it for use in closures
     title(main, sub, ...)
@@ -188,18 +204,40 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
 
             if(label.tick.marks) { ## label tick marks
                 las <- par("las")
-                mytext <- function(labels, side, at, ...)
-                    mtext(text = labels, side = side, at = at, line = -.5,
+                mytext <- function(labels, side, at, line = -0.5, ...)
+                    mtext(text = labels, side = side, at = at, line = line,
                           col=col.lab, cex=cex.axis, font=font.lab, ...)
                 ## X
                 if(is.null(x.ticklabs))
                     x.ticklabs <- format(i.x * x.scal)
-                mytext(x.ticklabs, side = 1, at = i.x)
+                if(!is.na(asp)) {
+                    linepad <- (usr[3] - z.min)/lheight2 + 0.5
+                    mytext(x.ticklabs, side = 1, at = i.x, line = linepad)
+                } else {
+                    mytext(x.ticklabs, side = 1, at = i.x)
+                }
                 ## Z
                 if(is.null(z.ticklabs))
                     z.ticklabs <- format(i.z * z.scal)
+                if(!is.na(asp)) {
+                    if(angle.1) {
+                        if(angle > 2) {
+                            linepad <- (x2 - usr[1])/lheight + 0.5
+                        } else {
+                            linepad <- (x2 - usr[2])/lheight + 0.5
+                        }
+                    } else {
+                        if(angle > 2) {
+                            linepad <- (usr[2] - x1)/lheight + 0.5
+                        } else {
+                            linepad <- (usr[1] - x1)/lheight + 0.5
+                        }
+                   }
+                } else {
+                    linepad = -0.5
+                }
                 mytext(z.ticklabs, side = if(angle.1) 4 else 2, at = i.z,
-                       adj = if(0 < las && las < 3) 1 else NA)
+                       adj = if(0 < las && las < 3) 1 else NA, line = linepad)
                 ## Y
                 temp <- if(angle > 2) rev(i.y) else i.y ## turn y-labels around
                 if(is.null(y.ticklabs))
@@ -220,14 +258,18 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
                   cex = cex.lab, font = font.axis, las = 0)
         ## X
         lines(c(x.min, x.max), c(z.min, z.min), col = col.axis, lty = lty.axis)
-        mytext2(xlab, 1, line = 1.5, at = mean(x.range))
+        if(!is.na(asp)) {
+            mytext2(xlab, 1, line = (usr[3] - z.min)/lheight2 + 1.5, at = mean(x.range))
+        } else {
+            mytext2(xlab, 1, line = 1.5, at = mean(x.range))
+        }
         ## Y
         lines(xx[1] + c(0, y.max * yx.f), c(z.min, y.max * yz.f + z.min),
               col = col.axis, lty = lty.axis)
-        mytext2(ylab, if(angle.1) 2 else 4, line= 0.5, at = z.min + y.max * yz.f)
+        mytext2(ylab, if(angle.1) 2 else 4, line = linepad + 1, at = z.min + y.max * yz.f)
         ## Z
         lines(xx[c(2,2)], c(z.min, z.max), col = col.axis, lty = lty.axis)
-        mytext2(zlab, if(angle.1) 4 else 2, line= 1.5, at = mean(z.range))
+        mytext2(zlab, if(angle.1) 4 else 2, line = linepad + 2, at = mean(z.range))
         if(box) {
             if(is.null(lty.hide)) lty.hide <- lty.axis
             ## X
@@ -278,7 +320,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
     ob <- ls() ## remove all unused objects from the result's enviroment:
     rm(list = ob[!ob %in% c("angle", "mar", "usr", "x.scal", "y.scal", "z.scal", "yx.f",
         "yz.f", "y.add", "z.min", "z.max", "x.min", "x.max", "y.max", 
-        "x.prty", "y.prty", "z.prty")])
+        "x.prty", "y.prty", "z.prty", "mem.par")])
     rm(ob)
     invisible(list(
         xyz.convert = function(x, y=NULL, z=NULL) {

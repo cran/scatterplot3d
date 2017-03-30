@@ -18,7 +18,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
     cex.lab=par("cex.lab"), font.axis=par("font.axis"),
     font.lab=par("font.lab"), lty.axis=par("lty"),
     lty.grid=par("lty"), lty.hide=NULL, lty.hplot=par("lty"),
-    log="", ...)
+    log="", asp=NA, ...)
 }
 \arguments{
  \item{x}{the coordinates of points in the plot.}
@@ -54,7 +54,9 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
    On some devices not all colors can be displayed. In this case try the
    postscript device or use \code{highlight.3d = FALSE}.}
  \item{mar}{A numerical vector of the form c(bottom, left, top, right)
-   which gives the lines of margin to be specified on the four sides of the plot.}
+   which gives the lines of margin to be specified on the four sides of the plot.
+   This \code{\link[graphics]{par}} setting is reverted to the previous setting on exit of the function.
+   For subsequent function calls affecting margins you should call \code{par(mar = ...)} with the same settings explicitly.}
  \item{bg}{background (fill) color for the open plot symbols given by pch = 21:25.}
  \item{col.axis, col.grid, col.lab}{the color to be used for axis / grid / axis labels.}
  \item{cex.symbols, cex.axis, cex.lab}{the magnification to be used for
@@ -65,6 +67,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
  \item{lty.hplot}{the line type to be used for vertical segments with \code{type = "h"}.}
  \item{log}{Not yet implemented!  A character string which contains "x"
    (if the x axis is to be logarithmic), "y", "z", "xy", "xz", "yz", "xyz".}
+ \item{asp}{numeric, giving the \bold{asp}ect ratio z/x or z/y, see \sQuote{Note}.}
  \item{\dots}{more graphical parameters can be given as arguments,
    \code{pch = 16} or \code{pch = 20} may be nice.}
 }
@@ -107,10 +110,16 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
   for axis calculation.  So we recommend to try the specification of
   graphical parameters at first as arguments in \code{scatterplot3d} and
   only if needed as arguments in previous \code{par()} call.
+
+  If \code{asp} is a finite positive value then the window is set up so that one
+  data unit in the x or y direction (the one that ist plotted horizontally
+  - depends on \code{angle} -) is equal in length to \code{asp} \eqn{\times}{*}
+  one data unit in the z direction.
+  The variation of \code{asp} is only reasonable if the default values
+  \code{x.ticklabs=NULL}, \code{y.ticklabs=NULL}, \code{z.ticklabs=NULL} are not changed.
 }
 \author{
-  Uwe Ligges \email{ligges@statistik.tu-dortmund.de};
-  \url{http://www.statistik.tu-dortmund.de/~ligges}.
+  Uwe Ligges \email{ligges@statistik.tu-dortmund.de}, Martin Maechler, Sarah Schnackenberg
 }
 \seealso{
   \code{\link[graphics]{persp}}, \code{\link[graphics]{plot}}, \code{\link[graphics]{par}}.

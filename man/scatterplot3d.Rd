@@ -55,8 +55,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
    postscript device or use \code{highlight.3d = FALSE}.}
  \item{mar}{A numerical vector of the form c(bottom, left, top, right)
    which gives the lines of margin to be specified on the four sides of the plot.
-   This \code{\link[graphics]{par}} setting is reverted to the previous setting on exit of the function.
-   For subsequent function calls affecting margins you should call \code{par(mar = ...)} with the same settings explicitly.}
+   See section Values on how to change the setting back to the default / previous setting.}
  \item{bg}{background (fill) color for the open plot symbols given by pch = 21:25.}
  \item{col.axis, col.grid, col.lab}{the color to be used for axis / grid / axis labels.}
  \item{cex.symbols, cex.axis, cex.lab}{the magnification to be used for
@@ -88,6 +87,8 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
     The list in \code{polygon_args} collects arguments to be passed to the underlying 
     \code{\link[graphics]{polygon}} call that draws a solid (or transparent) plane if \code{draw_polygon=TRUE}.}
   \item{box3d}{function which \dQuote{refreshes} the box surrounding the plot.}
+  \item{par.mar}{As the function modifies the \code{par("mar")} settings of the current device and needs to keep these in case you add elements to the plot later on, 
+    you can change these back via \code{par(object$par.mar)} in case you want to add more plots with default margins to the current device.}  
 }
 \references{
  Ligges, U., and Maechler, M. (2003): 

@@ -71,6 +71,7 @@ Changes in 0.3-x releases of scatterplot3d:
  0.3-39: New asp argument (thanks for suggestions to Jari Oksanen)
 		 reset mar setting on.exit()
 		 bugfix for angle=90, angle=180
+ 0.3-40: revert: reset mar setting on.exit() from 0.3-39 as this introduced some bugs
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

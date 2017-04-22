@@ -21,7 +21,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
     ## Parts of the help files are stolen from the standard plotting functions in R.
 
     mem.par <- par(mar = mar)
-    on.exit(par(mem.par))
+#    on.exit(par(mem.par))
     x.scal <- y.scal <- z.scal <- 1
     xlabel <- if (!missing(x)) deparse(substitute(x))
     ylabel <- if (!missing(y)) deparse(substitute(y))
@@ -341,7 +341,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
             x <- xyz$x / x.scal + yx.f * y2
             y <- xyz$z / z.scal + yz.f * y2
             mem.par <- par(mar = mar, usr = usr)
-            on.exit(par(mem.par))
+            #on.exit(par(mem.par))
             if(type == "h") {
                 y2 <- z.min + yz.f * y2
                 segments(x, y, x, y2, ...)
@@ -365,7 +365,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
                 Intercept <- Intercept[1]
             }
             mem.par <- par(mar = mar, usr = usr)
-            on.exit(par(mem.par))
+            #on.exit(par(mem.par))
             x <- x.min:x.max
             y <- 0:y.max
             
@@ -393,13 +393,14 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
         },
         box3d = function(...){
             mem.par <- par(mar = mar, usr = usr)
-            on.exit(par(mem.par))
+            #on.exit(par(mem.par))
             lines(c(x.min, x.max), c(z.max, z.max), ...)
             lines(c(0, y.max * yx.f) + x.max, c(0, y.max * yz.f) + z.max, ...)
             lines(c(0, y.max * yx.f) + x.min, c(0, y.max * yz.f) + z.max, ...)
             lines(c(x.max, x.max), c(z.min, z.max), ...)
             lines(c(x.min, x.min), c(z.min, z.max), ...)
             lines(c(x.min, x.max), c(z.min, z.min), ...)
-        }
+        },
+        par.mar = mem.par
     ))
 }

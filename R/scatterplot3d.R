@@ -106,7 +106,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
 ### optim. axis scaling
     p.lab <- par("lab")
     ## Y
-    y.range <- range(dat$y[is.finite(dat$y)], ylim)
+    y.range <- y.range.fix <- range(dat$y[is.finite(dat$y)], ylim)
     y.prty <- pretty(y.range, n = lab[2],
         min.n = max(1, min(.5 * lab[2], p.lab[2])))
     y.scal <- round(diff(y.prty[1:2]), digits = 12)
@@ -116,7 +116,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
     if(!is.null(ylim)) y.max <- max(y.max, ceiling((ylim[2] - y.add) / y.scal))
 #    if(angle > 2) dat$y <- y.max - dat$y  ## turn y-values around
     ## X
-    x.range <- range(dat$x[is.finite(dat$x)], xlim)
+    x.range <- x.range.fix <- range(dat$x[is.finite(dat$x)], xlim)
     x.prty <- pretty(x.range, n = lab[1],
         min.n = max(1, min(.5 * lab[1], p.lab[1])))
     x.scal <- round(diff(x.prty[1:2]), digits = 12)
@@ -253,6 +253,25 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
 
         ## axis and labels
 
+        ## determine position of labels
+        if(!is.na(asp)) {
+            if(angle.1) {
+                if(angle > 2) {
+                    linepad <- (x2 - usr[1])/lheight + 0.5
+                } else {
+                    linepad <- (x2 - usr[2])/lheight + 0.5
+                }
+            } else {
+                if(angle > 2) {
+                    linepad <- (usr[2] - x1)/lheight + 0.5
+                } else {
+                    linepad <- (usr[1] - x1)/lheight + 0.5
+                }
+            }
+        } else {
+            linepad = -0.5
+        }
+        
         mytext2 <- function(lab, side, line, at)
             mtext(lab, side = side, line = line, at = at, col = col.lab,
                   cex = cex.lab, font = font.axis, las = 0)
@@ -319,8 +338,8 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
 ### Return Function Object
     ob <- ls() ## remove all unused objects from the result's enviroment:
     rm(list = ob[!ob %in% c("angle", "mar", "usr", "x.scal", "y.scal", "z.scal", "yx.f",
-        "yz.f", "y.add", "z.min", "z.max", "x.min", "x.max", "y.max", 
-        "x.prty", "y.prty", "z.prty", "mem.par")])
+        "yz.f", "y.add", "z.min", "z.max", "x.min", "x.max", "y.max", "x.range.fix", "y.range.fix",
+        "xlabel", "ylabel", "zlabel", "x.prty", "y.prty", "z.prty", "mem.par")])
     rm(ob)
     invisible(list(
         xyz.convert = function(x, y=NULL, z=NULL) {
@@ -400,6 +419,60 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
             lines(c(x.max, x.max), c(z.min, z.max), ...)
             lines(c(x.min, x.min), c(z.min, z.max), ...)
             lines(c(x.min, x.max), c(z.min, z.min), ...)
+        },
+        contour3d = function(f, x.count = 10, y.count = 10, type = "l", lty = "24", 
+            x.resolution = 50, y.resolution = 50, ...) {    
+            if(class(f) == "lm"){
+                #orig.vars <- c(xlabel, ylabel, zlabel)
+                #orig.vars <- gsub(".*\\$", "", orig.vars)
+                vars <- all.vars(formula(f))
+            } else vars <- c("z", "x", "y")
+
+            #vars.ordering <- names(sort(sapply(vars, function(v) grep(v, orig.vars)))[1:2])
+            
+            # x vor y in Formel!
+            for(x1 in seq(x.range.fix[1], x.range.fix[2], length = x.count)){
+                d <- data.frame(x1, seq(y.range.fix[1], y.range.fix[2], length = y.resolution))
+                names(d) <- vars[-1]
+                if(class(f) == "lm"){
+                    d[vars[1]] <- predict(f, newdata=d)      
+                } else d[vars[1]] <- f(d[[1]], d[[2]])
+                xyz <- xyz.coords(d)
+                if(angle > 2) { ## switch y and x axis to ensure righthand oriented coord.
+                    temp <- xyz$x; xyz$x <- xyz$y; xyz$y <- temp
+                }
+                y2 <- (xyz$y - y.add) / y.scal
+                x <- xyz$x / x.scal + yx.f * y2
+                y <- xyz$z / z.scal + yz.f * y2
+                mem.par <- par(mar = mar, usr = usr)
+                if(type == "h") {
+                    y2 <- z.min + yz.f * y2
+                    segments(x, y, x, y2, ...)
+                    points(x, y, type = "p", ...)
+                }
+                else points(x, y, type = type, lty = lty, ...)
+            }       
+            for(x2 in seq(y.range.fix[1], y.range.fix[2], length = y.count)){
+                d <- data.frame(seq(x.range.fix[1], x.range.fix[2], length = x.resolution), x2)
+                names(d) <- vars[-1]
+                if(class(f) == "lm"){
+                    d[vars[1]] <- predict(f, newdata=d)      
+                } else d[vars[1]] <- f(d[[1]], d[[2]])
+                xyz <- xyz.coords(d)
+                if(angle > 2) { ## switch y and x axis to ensure righthand oriented coord.
+                    temp <- xyz$x; xyz$x <- xyz$y; xyz$y <- temp
+                }
+                y2 <- (xyz$y - y.add) / y.scal
+                x <- xyz$x / x.scal + yx.f * y2
+                y <- xyz$z / z.scal + yz.f * y2
+                mem.par <- par(mar = mar, usr = usr)
+                if(type == "h") {
+                    y2 <- z.min + yz.f * y2
+                    segments(x, y, x, y2, ...)
+                    points(x, y, type = "p", ...)
+                }
+                else points(x, y, type = type, lty = lty, ...)
+            }
         },
         par.mar = mem.par
     ))

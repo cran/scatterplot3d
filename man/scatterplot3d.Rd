@@ -87,6 +87,14 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
     The list in \code{polygon_args} collects arguments to be passed to the underlying 
     \code{\link[graphics]{polygon}} call that draws a solid (or transparent) plane if \code{draw_polygon=TRUE}.}
   \item{box3d}{function which \dQuote{refreshes} the box surrounding the plot.}
+  \item{contour3d}{function which draws countour lines into the existing plot:
+    \code{contour3d(f, x.count = 10, y.count = 10, type = "l", lty = "24", 
+            x.resolution = 50, y.resolution = 50, ...)}.
+    The first argument can be an \code{lm} object of two dimensions or a function of two arguments. In both cases
+    the dimensions have to be given in the order \code{x}, \code{y} of the \code{scatterplot3d} call.
+    The arguments \code{x.count} and \code{y.count} specify how many segments should be drawn for each dimension.
+    The arguments \code{x.resolution} and \code{y.resolution} control the number of locations where the segments have to be evaluated.
+}
   \item{par.mar}{As the function modifies the \code{par("mar")} settings of the current device and needs to keep these in case you add elements to the plot later on, 
     you can change these back via \code{par(object$par.mar)} in case you want to add more plots with default margins to the current device.}  
 }

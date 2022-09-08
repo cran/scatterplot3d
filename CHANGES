@@ -74,6 +74,7 @@ Changes in 0.3-x releases of scatterplot3d:
  0.3-40: revert: reset mar setting on.exit() from 0.3-39 as this introduced some bugs
  0.3-41: bugfix for tick.marks = FALSE option -> labels on right position for asp-argument
          new contour3d function that allows for lm objects or functions which are non linear
+ 0.3-42: adapt vignette for amsmath to be included by default
 
 known UNfixed bug:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

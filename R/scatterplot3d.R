@@ -422,7 +422,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
         },
         contour3d = function(f, x.count = 10, y.count = 10, type = "l", lty = "24", 
             x.resolution = 50, y.resolution = 50, ...) {    
-            if(class(f) == "lm"){
+            if(inherits(f, "lm")){
                 #orig.vars <- c(xlabel, ylabel, zlabel)
                 #orig.vars <- gsub(".*\\$", "", orig.vars)
                 vars <- all.vars(formula(f))
@@ -434,7 +434,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
             for(x1 in seq(x.range.fix[1], x.range.fix[2], length = x.count)){
                 d <- data.frame(x1, seq(y.range.fix[1], y.range.fix[2], length = y.resolution))
                 names(d) <- vars[-1]
-                if(class(f) == "lm"){
+                if(inherits(f, "lm")){
                     d[vars[1]] <- predict(f, newdata=d)      
                 } else d[vars[1]] <- f(d[[1]], d[[2]])
                 xyz <- xyz.coords(d)
@@ -455,7 +455,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
             for(x2 in seq(y.range.fix[1], y.range.fix[2], length = y.count)){
                 d <- data.frame(seq(x.range.fix[1], x.range.fix[2], length = x.resolution), x2)
                 names(d) <- vars[-1]
-                if(class(f) == "lm"){
+                if(inherits(f, "lm")){
                     d[vars[1]] <- predict(f, newdata=d)      
                 } else d[vars[1]] <- f(d[[1]], d[[2]])
                 xyz <- xyz.coords(d)

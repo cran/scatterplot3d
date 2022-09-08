@@ -9,7 +9,7 @@ citEntry(entry       = "article",
 	pages        = "1--20",
 	number       = 11,
         volume       = 8,
-	url          = "http://www.jstatsoft.org",
+	doi          = "10.18637/jss.v008.i11",
 	textVersion  = paste("Ligges, U. and Mächler, M. (2003).",
 		"Scatterplot3d - an R Package for Visualizing Multivariate Data.",
 		"Journal of Statistical Software 8(11), 1-20.")

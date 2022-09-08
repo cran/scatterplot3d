@@ -102,7 +102,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
  Ligges, U., and Maechler, M. (2003): 
  Scatterplot3d -- an R Package for Visualizing Multivariate Data. 
  \emph{Journal of Statistical Software} 8(11), 1--20. 
- \url{http://www.jstatsoft.org/}
+ \doi{10.18637/jss.v008.i11}
 }
 \note{
   Some graphical parameters should only be set as arguments in

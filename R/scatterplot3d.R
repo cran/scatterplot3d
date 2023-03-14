@@ -4,7 +4,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
      xlab = NULL, ylab = NULL, zlab = NULL, scale.y = 1, angle = 40,
      axis = TRUE, tick.marks = TRUE, label.tick.marks = TRUE,
      x.ticklabs = NULL, y.ticklabs = NULL, z.ticklabs = NULL,
-     y.margin.add = 0, grid = TRUE, box = TRUE, lab = par("lab"),
+     y.margin.add = 0, y.axis.offset = 1, grid = TRUE, box = TRUE, lab = par("lab"),
      lab.z = mean(lab[1:2]), type = "p", highlight.3d = FALSE,
      mar = c(5, 3, 4, 3) + 0.1, bg = par("bg"), col.axis = par("col.axis"),
      col.grid = "grey", col.lab = par("col.lab"), cex.symbols = par("cex"),
@@ -158,7 +158,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
     if(angle.2) {x1 <- x.min + yx.f * y.max; x2 <- x.max}
     else        {x1 <- x.min; x2 <- x.max + yx.f * y.max}
     plot.window(c(x1, x2), c(z.min, z.max + yz.f * y.max), asp = asp)
-    temp <- strwidth(format(rev(y.prty))[1], cex = cex.axis/par("cex"))
+    temp <- strwidth(paste0("M", format(rev(y.prty))[1]), cex = cex.axis * par("cex"), font = font.axis)
 
 ### lheight in usr units for numeric aspect is needed to locate
 ### side 2 and 4 axis annotation with fixes aspect.
@@ -206,7 +206,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
                 las <- par("las")
                 mytext <- function(labels, side, at, line = -0.5, ...)
                     mtext(text = labels, side = side, at = at, line = line,
-                          col=col.lab, cex=cex.axis, font=font.lab, ...)
+                          col=col.lab, cex=cex.axis*par("cex"), font=font.axis, ...)
                 ## X
                 if(is.null(x.ticklabs))
                     x.ticklabs <- format(i.x * x.scal)
@@ -246,8 +246,8 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
                     y.ticklabs <- rev(y.ticklabs)
                 text(i.y * yx.f + xx[1],
                      i.y * yz.f + z.min, y.ticklabs,
-                     pos=if(angle.1) 2 else 4, offset=1,
-                     col=col.lab, cex=cex.axis/par("cex"), font=font.lab)
+                     pos=if(angle.1) 2 else 4, offset=y.axis.offset,
+                     col=col.lab, cex=cex.axis, font=font.axis)
             }
         }
 
@@ -274,7 +274,7 @@ function(x, y = NULL, z = NULL, color = par("col"), pch = par("pch"),
         
         mytext2 <- function(lab, side, line, at)
             mtext(lab, side = side, line = line, at = at, col = col.lab,
-                  cex = cex.lab, font = font.axis, las = 0)
+                  cex = cex.lab*par("cex"), font = font.lab, las = 0)
         ## X
         lines(c(x.min, x.max), c(z.min, z.min), col = col.axis, lty = lty.axis)
         if(!is.na(asp)) {

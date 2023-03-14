@@ -10,10 +10,10 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
     xlab=NULL, ylab=NULL, zlab=NULL, scale.y=1, angle=40,
     axis=TRUE, tick.marks=TRUE, label.tick.marks=TRUE,
     x.ticklabs=NULL, y.ticklabs=NULL, z.ticklabs=NULL,
-    y.margin.add=0, grid=TRUE, box=TRUE, lab=par("lab"),
-    lab.z=mean(lab[1:2]), type="p", highlight.3d=FALSE,
-    mar=c(5,3,4,3)+0.1, bg=par("bg"), col.axis=par("col.axis"),
-    col.grid="grey", col.lab=par("col.lab"), 
+    y.margin.add=0, y.axis.offset=1, grid=TRUE, box=TRUE, 
+    lab=par("lab"), lab.z=mean(lab[1:2]), type="p", 
+    highlight.3d=FALSE, mar=c(5,3,4,3)+0.1, bg=par("bg"), 
+    col.axis=par("col.axis"), col.grid="grey", col.lab=par("col.lab"), 
     cex.symbols=par("cex"), cex.axis=0.8 * par("cex.axis"),
     cex.lab=par("cex.lab"), font.axis=par("font.axis"),
     font.lab=par("font.lab"), lty.axis=par("lty"),
@@ -42,6 +42,8 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
  \item{x.ticklabs, y.ticklabs, z.ticklabs}{vector of tick mark labels.}
  \item{y.margin.add}{add additional space between tick mark labels and
    axis label of the y axis}
+ \item{y.axis.offset}{a numeric (default 1) specifying the offset of y axis tick mark labels 
+   from the axis, see offset argument of \code{\link{text}}.}
  \item{grid}{a logical value indicating whether a grid should be drawn on the plot.}
  \item{box}{a logical value indicating whether a box should be drawn around the plot.}
  \item{lab}{a numerical vector of the form c(x, y, len).  The values of
@@ -58,8 +60,9 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
    See section Values on how to change the setting back to the default / previous setting.}
  \item{bg}{background (fill) color for the open plot symbols given by pch = 21:25.}
  \item{col.axis, col.grid, col.lab}{the color to be used for axis / grid / axis labels.}
- \item{cex.symbols, cex.axis, cex.lab}{the magnification to be used for
-   point symbols, axis annotation, labels relative to the current.}
+ \item{cex.symbols}{the magnification to be used for point symbols.}
+ \item{cex.axis, cex.lab}{the magnification to be used for
+   axis annotation and labels relative to the current.}
  \item{font.axis, font.lab}{the font to be used for axis annotation / labels.}
  \item{lty.axis, lty.grid}{the line type to be used for axis / grid.}
  \item{lty.hide}{line style used to plot \sQuote{non-visible} edges (defaults of the \code{lty.axis} style)}
@@ -142,7 +145,7 @@ scatterplot3d(x, y=NULL, z=NULL, color=par("col"), pch=par("pch"),
   x <- cos(z)
   y <- sin(z)
   scatterplot3d(x, y, z, highlight.3d=TRUE, col.axis="blue",
-      col.grid="lightblue", main="scatterplot3d - 1", pch=20)
+      col.grid="lightblue", main="scatterplot3d - 1", pch=20, mar=c(0,0,0,0))
 
   ## example 2
   temp <- seq(-pi, 0, length = 50)

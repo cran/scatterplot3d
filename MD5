@@ -1,12 +1,12 @@
-ea13e8972ef2dc65fabb6f21567f730e *CHANGES
-fd50769817a8285c3319ea2733869c31 *DESCRIPTION
+0afdfae65b4b0721b57640bf6910c2e2 *CHANGES
+910cb72864a3f4525490dc1a3620733f *DESCRIPTION
 8cdc357cf0980c33aaa6f0ec9515bf19 *NAMESPACE
-ecf0fe4101035a39a6ef9fdabee9a2ce *R/scatterplot3d.R
+ef25e93568e270ba43cabf442c2c41be *R/scatterplot3d.R
 f01682ffd9d5582c0d3b8a226f3c2b16 *build/partial.rdb
 2b95495548f140756d671d92a7d25d4d *build/vignette.rds
-32e0319b46afc6fd67343c8c2cbeb7c2 *inst/CITATION
+3e4970b2f1d1e7955f32f7889166a37b *inst/CITATION
 4227d2d500d52cdd18b7af5407621be0 *inst/doc/s3d.Rnw
-f444faf19cea2d4bdc2cf98291e1dcdb *inst/doc/s3d.pdf
+a7e2b65d5e780b5303245b87d39e582f *inst/doc/s3d.pdf
 50051f0feb902cf69820d01c45373e07 *inst/po/de/LC_MESSAGES/R-scatterplot3d.mo
 3dd8ff033a10120127977c076dd14724 *inst/po/en/LC_MESSAGES/R-scatterplot3d.mo
 c588dd5fbdf2b1a5e04488d4f22d4e09 *man/scatterplot3d.Rd

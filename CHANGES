@@ -75,9 +75,11 @@ Changes in 0.3-x releases of scatterplot3d:
  0.3-41: bugfix for tick.marks = FALSE option -> labels on right position for asp-argument
          new contour3d function that allows for lm objects or functions which are non linear
  0.3-42: adapt vignette for amsmath to be included by default
- 0.3-43: fix behaviour of cex.axis, cex.lab 
-         new argument y.axis.offset (defaults to 1 rather than the regular 0.5)
-		 fix calculation of strwidth for y axis tick mark labels to adjust the required space for labels
+ 0.3-43: update CITATION standards
+         fix behaviour of cex.axis, cex.lab (was not really relative to par("cex") and mixed up with each other)
+         fix calculation of strwidth for y axis tick mark labels to adjust the required space for labels
+		 new argument y.axis.offset (defaults to 1 rather than the regular 0.5)
+ 0.3-44: convert to UTF-8
 
 won't fix:
  xlim, ylim, zlim don't work *exactly* for enlarged areas

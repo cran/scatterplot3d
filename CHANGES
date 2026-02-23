@@ -80,6 +80,8 @@ Changes in 0.3-x releases of scatterplot3d:
          fix calculation of strwidth for y axis tick mark labels to adjust the required space for labels
 		 new argument y.axis.offset (defaults to 1 rather than the regular 0.5)
  0.3-44: convert to UTF-8
-
+ 0.3-45: Add Authors@R to DERSCRIPTION file
+         update URLs (mostly vignette)
+ 
 won't fix:
  xlim, ylim, zlim don't work *exactly* for enlarged areas
